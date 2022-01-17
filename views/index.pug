@@ -1,0 +1,18 @@
+doctype html
+head
+  meta(charset='UTF-8')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  title Infinity Chat - The Real Chatroom by Saikat
+  link(rel='stylesheet' href='/css/style.css')
+nav
+  img.logo(src='/media/chat.png' alt='')
+  p#title Infinity Chat
+.chatBox
+  .container
+  .send
+    form#send-container(action='#')
+      input#messageInp(type='text' name='messageInp')
+      button.btn(type='submit') Send
+
+script(src="/socket.io/socket.io.js")
+script(src='/js/client.js')
