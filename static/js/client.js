@@ -1,9 +1,12 @@
 const socket = io();
+
 // Get DOM elements in respective Js variables
+
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp')
 const container = document.querySelector(".container")
 const usersContainer = document.getElementById('users')
+
 
 // All friends in the chatroom
 let users;
@@ -55,17 +58,18 @@ function appendUser(){
   allUser.forEach(e =>{
     e.remove()
   })
-  Object.values(users).forEach(e =>{
+  Object.keys(users).forEach(e =>{
     let userElement = document.createElement('div');
     let nameElement = document.createElement('div');
     let statusElement = document.createElement('div');
     userElement.classList.add('user');
+    userElement.id = e;
     nameElement.classList.add('userName');
     statusElement.classList.add('info');
     statusElement.classList.add('online');
     userElement.append(nameElement);
     userElement.append(statusElement);
-    nameElement.innerText = e;
+    nameElement.innerText = users[e];
     statusElement.innerText = 'online';
     usersContainer.append(userElement);
     
@@ -73,7 +77,10 @@ function appendUser(){
 }
 
 // Ask new user for his/her name and let the server know
-const name = prompt("Enter your name to join");
+let name = prompt("Enter your name to join");
+if(name == '' || name == null || name == undefined){
+    name = "Kitty"
+}
 // const name = "Saikat";
 
 socket.emit('new-user-joined', name);
@@ -100,9 +107,10 @@ socket.on('receive', data =>{
 })
 
 // If a user leaves the chat, append the info to the container
-socket.on('left', name =>{
-    appendMessage('', `${name} left the chat`, 'center')
-
+socket.on('left', id =>{
+    appendMessage('', `${users[id]} left the chat`, 'center')
+    delete users[id];
+    appendUser()
 })
 
 // Welcome to Infinity chat
@@ -115,6 +123,7 @@ form.addEventListener('submit', (e) => {
     if (message !== ""){
 	    appendMessage('', message, 'right');
 	    socket.emit('send', message);
-	    messageInput.value = ''
+	    messageInput.value = '';
+	    messageInput.focus();
     }
 })

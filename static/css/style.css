@@ -39,12 +39,11 @@ nav {
 }
 #users{
   flex-grow: 1;
+  font-family: Arial, Sans-Serif;
 }
 .user{
-  background: lightgray;
   margin: 2%;
   padding: 5px;
-  border-radius: 1rem;
 }
 .info{
   color: rgb(148,12,122);
