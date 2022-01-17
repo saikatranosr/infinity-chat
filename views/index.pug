@@ -7,12 +7,15 @@ head
 nav
   img.logo(src='/media/chat.png' alt='')
   p#title Infinity Chat
-.chatBox
-  .container
-  .send
-    form#send-container(action='#')
-      input#messageInp(type='text' name='messageInp')
-      button.btn(type='submit') Send
+#main
+  #users
+  
+  .chatBox
+    .container
+    .send
+      form#send-container(action='#')
+        input#messageInp(type='text' name='messageInp')
+        button.btn(type='submit') Send
 
 script(src="/socket.io/socket.io.js")
 script(src='/js/client.js')

@@ -3,9 +3,10 @@ const socket = io();
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp')
 const container = document.querySelector(".container")
+const usersContainer = document.getElementById('users')
 
 // All friends in the chatroom
-let users = {};
+let users;
 
 // Audio that will play on receiving messages
 var audio = new Audio('/media/ting.mp3');
@@ -48,6 +49,28 @@ function appendMessage(sender, message, position){
     }
 }
 
+// Append Users names and their status
+function appendUser(){
+  let allUser = document.querySelectorAll('.user')
+  allUser.forEach(e =>{
+    e.remove()
+  })
+  Object.values(users).forEach(e =>{
+    let userElement = document.createElement('div');
+    let nameElement = document.createElement('div');
+    let statusElement = document.createElement('div');
+    userElement.classList.add('user');
+    nameElement.classList.add('userName');
+    statusElement.classList.add('info');
+    statusElement.classList.add('online');
+    userElement.append(nameElement);
+    userElement.append(statusElement);
+    nameElement.innerText = e;
+    statusElement.innerText = 'online';
+    usersContainer.append(userElement);
+    
+  })
+}
 
 // Ask new user for his/her name and let the server know
 const name = prompt("Enter your name to join");
@@ -55,16 +78,19 @@ const name = prompt("Enter your name to join");
 
 socket.emit('new-user-joined', name);
 
-socket.on('receive-names', data => {
-    users = data;
+socket.on('receive-names', e => {
+    users = e;
     console.log(users)
+    appendUser()
 });
 
 // If a new user joins, receive his/her name from the server
-socket.on('user-joined', name =>{
-    appendMessage('', `${name} joined the chat`, 'center')
-    users[socket.id] = name;
-    console.log(users)
+socket.on('user-joined', e =>{
+    appendMessage('', `${e.name} joined the chat`, 'center')
+    users[e.id] = e.name;
+    console.log(users);
+    appendUser()
+    
 })
 
 
@@ -76,9 +102,11 @@ socket.on('receive', data =>{
 // If a user leaves the chat, append the info to the container
 socket.on('left', name =>{
     appendMessage('', `${name} left the chat`, 'center')
-    delete users[socket.id];
 
 })
+
+// Welcome to Infinity chat
+appendMessage('', `${name}, Welcome to Infinity Chat.`, 'center')
 
 // If the form gets submitted, send server the message
 form.addEventListener('submit', (e) => {

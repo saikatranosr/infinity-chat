@@ -11,7 +11,7 @@ app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
  
 // MY VARIABLES
-const users = {};
+let users = {};
 
 // CREATING SERVER
 app.get('/', (req, res)=>{
@@ -24,7 +24,7 @@ io.on('connection', socket =>{
     socket.on('new-user-joined', name =>{ 
         users[socket.id] = name;
         console.log(users)
-        socket.broadcast.emit('user-joined', users);
+        socket.broadcast.emit('user-joined', {id: socket.id, name: name} );
         socket.emit('receive-names', users);
     });
 
@@ -37,6 +37,8 @@ io.on('connection', socket =>{
     socket.on('disconnect', message =>{
         socket.broadcast.emit('left', users[socket.id]);
         delete users[socket.id];
+        console.log(users)
+        socket.emit('receive-names', users);
     });
 })
 

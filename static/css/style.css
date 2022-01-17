@@ -7,6 +7,7 @@ html{
 }
 body {
   height: 100vh;
+  overflow-y: hidden;
 }
 nav {
   padding: 0 3vw;
@@ -29,9 +30,32 @@ nav {
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
+
+#main{
+  display: flex;
+  height: 100%;
+  width: 100%;
+  justify-content: space-around;
+}
+#users{
+  flex-grow: 1;
+}
+.user{
+  background: lightgray;
+  margin: 2%;
+  padding: 5px;
+  border-radius: 1rem;
+}
+.info{
+  color: rgb(148,12,122);
+}
+.userName{
+  font-size: 1.2rem;
+}
 .chatBox {
   max-width: 955px;
   height: calc(100% - 40px);
+  flex-grow: 8;
 
 }
 .container {
@@ -39,7 +63,7 @@ nav {
   border-radius: 0;
   margin: auto;
   overflow-y: auto;
-  height: 90%;
+  height: calc(100% - 111px);
   padding: 3vw;
 }
 
