@@ -1,3 +1,4 @@
+
 * {
   margin: 0;
   padding: 0;
@@ -6,6 +7,9 @@ html{
   scroll-behavior: smooth;
 }
 body {
+  --theme-color: rgb(148,12,122);
+  --gray: lightgray;
+  --light-gray: rgb(237,237,237);
   height: 100vh;
   overflow-y: hidden;
 }
@@ -39,7 +43,7 @@ nav {
   justify-content: space-around;
 }
 #users{
-  background: #eeeeee;
+  background: var(--light-gray);
   display: flex;
   flex-direction: column;
   flex-grow: 1;
@@ -51,7 +55,7 @@ nav {
   padding: 5px;
 }
 .info{
-  color: rgb(148,12,122);
+  color: var(--theme-color);
 }
 .userName{
   font-size: 1.2rem;
@@ -79,17 +83,17 @@ nav {
   max-width: 80%;
 }
 .sender-name{
-  color: rgb(148,12,122);
+  color: var(--theme-color);
   font-size: 0.8rem;
 }
 .left {
-  background: lightgray;
+  background: var(--gray);
   float: left;
   clear: both;
 }
 
 .right {
-  background: rgb(148,12,122);
+  background: var(--theme-color);
   color: white;
   float: right;
   clear: both;
@@ -97,8 +101,8 @@ nav {
 
 .center {
   font-size: 0.7rem;
-  background: lightgray;
-  color: rgb(148,12,122);
+  background: var(--gray);
+  color: var(--theme-color);
   float: left;
   clear: both;
 }
@@ -112,15 +116,15 @@ nav {
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  background: lightgray;
+  background: white;
   padding: 5px;
   margin: 0;
 }
 #messageInp {
-  /*border: 2px solid black;*/
+  border: none;
   border-radius: 10000px;
-  height: 34px;
-  width: auto;
+  background: var(--light-gray);
+  height: 45px;
   padding: 0 9px;
   font-size: 1.1rem;
   margin: 0;
@@ -129,14 +133,14 @@ nav {
 }
 
 .btn {
-  /*border: 2px solid black;*/
-  background: black;
-  color: white;
+  border: none;
+  background: none;
+  color: var(--theme-color);
   font-weight: bold;
   margin-left: 5px;
   width: 40px;
   cursor: pointer;
-  /*border-radius: 6px;*/
+  border-radius: 6px;
   height: 34px;
 }
 
