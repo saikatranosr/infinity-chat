@@ -6,7 +6,7 @@ const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp')
 const container = document.querySelector(".container")
 const usersContainer = document.getElementById('users')
-
+const sendBtn = document.getElementById('sendBtn')
 
 // All friends in the chatroom
 let users;
@@ -42,7 +42,7 @@ function appendMessage(sender, message, position){
     
     // Scrolling properities
     if(position =='left'){
-        audio.play();
+        // audio.play();
         if (scroled){
     	container.scrollTop = container.scrollHeight
         }
@@ -75,6 +75,16 @@ function appendUser(){
     
   })
 }
+
+// Prevent from Back
+window.history.forward();
+    function noBack()
+    {
+        window.history.forward();
+    }
+document.body.onLoad='noBack();';
+document.body.onpageshow='if (event.persisted) noBack();';
+document.body.onUnload="";
 
 // Ask new user for his/her name and let the server know
 let name = prompt("Enter your name to join");
@@ -126,4 +136,4 @@ form.addEventListener('submit', (e) => {
 	    messageInput.value = '';
 	    messageInput.focus();
     }
-})
+});

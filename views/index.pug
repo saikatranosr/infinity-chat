@@ -5,7 +5,7 @@ head
   title Infinity Chat - The Real Chatroom by Saikat
   link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(rel='stylesheet' href='/css/style.css')
-nav
+nav.noselect
   img.logo(src='/media/chat.png' alt='')
   p#title Infinity Chat
 #main
@@ -15,7 +15,7 @@ nav
     .container
     form.send#send-container(action='#')
       input#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
-      button.btn(type='submit')
+      button.btn.noselect(type='submit')
         span.material-icons send
 script(src="/socket.io/socket.io.js")
 script(src='/js/client.js')
