@@ -3,10 +3,10 @@ const socket = io();
 // Get DOM elements in respective Js variables
 
 const form = document.getElementById('send-container');
-const messageInput = document.getElementById('messageInp')
-const container = document.querySelector(".container")
-const usersContainer = document.getElementById('users')
-const sendBtn = document.getElementById('sendBtn')
+const messageInput = document.getElementById('messageInp');
+const container = document.querySelector(".container");
+const usersContainer = document.getElementById('users');
+const sendBtn = document.getElementById('sendBtn');
 
 // All friends in the chatroom
 let users;
@@ -14,6 +14,7 @@ let users;
 // Audio that will play on receiving messages
 var audio = new Audio('/media/ting.mp3');
 
+// Fuction to check scroll
 function scrolled(e) {
   if (e.offsetHeight + e.scrollTop >= e.scrollHeight) {
     return true;
@@ -46,6 +47,10 @@ function appendMessage(sender, message, position){
         if (scroled){
     	container.scrollTop = container.scrollHeight
         }
+        else{
+            tempMsg = 0;
+            console.log("Unread messages:"+ tempMsg+1);
+        }
     }
     if(position =='right'){ 
     	container.scrollTop = container.scrollHeight
@@ -55,26 +60,44 @@ function appendMessage(sender, message, position){
 // Append Users names and their status
 function appendUser(){
   let allUser = document.querySelectorAll('.user')
-  allUser.forEach(e =>{
-    e.remove()
-  })
-  Object.keys(users).forEach(e =>{
+  // allUser.forEach(e =>{
+  //   e.remove()
+  // })
+  this.appendFoo = (data) =>{
     let userElement = document.createElement('div');
     let nameElement = document.createElement('div');
     let statusElement = document.createElement('div');
     userElement.classList.add('user');
-    userElement.id = e;
+    userElement.id = data.idKey;
     nameElement.classList.add('userName');
     statusElement.classList.add('info');
-    statusElement.classList.add('online');
+    statusElement.classList.add(data.info[0]);
     userElement.append(nameElement);
     userElement.append(statusElement);
-    nameElement.innerText = users[e];
-    statusElement.innerText = 'online';
+    nameElement.innerText = data.name;
+    statusElement.innerText = (data.info[0] == 'online') ? "online" : ((data.info[0] == 'typing') ? "typing..." : ``)
+    lastOnline = `${data.info[1].getHours()}:${data.info[1].getMinutes()}`
+    switch (data.info[0]) {
+        case 'online':
+            statusElement.innerText = "online";
+            break;
+        case 'typing':
+            statusElement.innerText = "typing...";
+            break;
+        case 'offline':
+            statusElement.innerText = lastOnline < las
+            break;
+    }
     usersContainer.append(userElement);
+  }
+  
+  this.renderAll = ()=>{
     
-  })
+  }
+  
 }
+  
+  
 
 // Prevent from Back
 window.history.forward();
