@@ -1,15 +1,12 @@
-const socket = io();
-
 // Get DOM elements in respective Js variables
-
 const form = document.getElementById('send-container');
 const messageInput = document.getElementById('messageInp');
 const container = document.querySelector(".container");
 const usersContainer = document.getElementById('users');
 const sendBtn = document.getElementById('sendBtn');
 
-// All friends in the chatroom
-let users;
+let users; // All friends in the chatroom
+tempMsg = 0 // Unread messages
 
 // Audio that will play on receiving messages
 var audio = new Audio('/media/ting.mp3');
@@ -20,7 +17,6 @@ function scrolled(e) {
     return true;
   }
 }
-
 // Function which will append event info to the contaner
 function appendMessage(sender, message, position){
     const messageContainer = document.createElement('div');
@@ -34,7 +30,7 @@ function appendMessage(sender, message, position){
     messageElement.innerText = message;
     
     // Storing the scroll values before appending
-    scroled = scrolled(container)
+    scroled_val = scrolled(container)
     
     // Append
     messageContainer.append(senderElement)
@@ -44,12 +40,12 @@ function appendMessage(sender, message, position){
     // Scrolling properities
     if(position =='left'){
         // audio.play();
-        if (scroled){
+        if (scroled_val){
     	container.scrollTop = container.scrollHeight
         }
         else{
-            tempMsg = 0;
-            console.log("Unread messages:"+ tempMsg+1);
+            //Pending
+           // console.log("Unread messages:"+ tempMsg+1);
         }
     }
     if(position =='right'){ 
@@ -58,11 +54,9 @@ function appendMessage(sender, message, position){
 }
 
 // Append Users names and their status
-function appendUser(){
+function AppendUser(){
   let allUser = document.querySelectorAll('.user')
-  // allUser.forEach(e =>{
-  //   e.remove()
-  // })
+  // To append a single user
   this.appendFoo = (data) =>{
     let userElement = document.createElement('div');
     let nameElement = document.createElement('div');
@@ -76,7 +70,7 @@ function appendUser(){
     userElement.append(statusElement);
     nameElement.innerText = data.name;
     statusElement.innerText = (data.info[0] == 'online') ? "online" : ((data.info[0] == 'typing') ? "typing..." : ``)
-    lastOnline = `${data.info[1].getHours()}:${data.info[1].getMinutes()}`
+    
     switch (data.info[0]) {
         case 'online':
             statusElement.innerText = "online";
@@ -85,19 +79,27 @@ function appendUser(){
             statusElement.innerText = "typing...";
             break;
         case 'offline':
-            statusElement.innerText = lastOnline < las
+            lastOnline = `${data.info[1].getHours()}:${data.info[1].getMinutes()}`
+            statusElement.innerText = lastOnline;
             break;
     }
     usersContainer.append(userElement);
   }
   
+  // To append all the useres one time
   this.renderAll = ()=>{
-    
+    Object.keys(users).forEach(e =>{
+        this.appendFoo({idKey: e, name: users[e].name, info: users[e].info})
+    })
+  }
+  
+  // To remove a user, Tekes id
+  this.removeUser = (e) => {
+    document.getElementById(e).remove()
   }
   
 }
-  
-  
+appendUser = new AppendUser();
 
 // Prevent from Back
 window.history.forward();
@@ -116,38 +118,6 @@ if(name == '' || name == null || name == undefined){
 }
 // const name = "Saikat";
 
-socket.emit('new-user-joined', name);
-
-socket.on('receive-names', e => {
-    users = e;
-    console.log(users)
-    appendUser()
-});
-
-// If a new user joins, receive his/her name from the server
-socket.on('user-joined', e =>{
-    appendMessage('', `${e.name} joined the chat`, 'center')
-    users[e.id] = e.name;
-    console.log(users);
-    appendUser()
-    
-})
-
-
-// If server sends a message, receive it
-socket.on('receive', data =>{
-    appendMessage(data.name, data.message, 'left')
-})
-
-// If a user leaves the chat, append the info to the container
-socket.on('left', id =>{
-    appendMessage('', `${users[id]} left the chat`, 'center')
-    delete users[id];
-    appendUser()
-})
-
-// Welcome to Infinity chat
-appendMessage('', `${name}, Welcome to Infinity Chat.`, 'center')
 
 // If the form gets submitted, send server the message
 form.addEventListener('submit', (e) => {
@@ -160,3 +130,9 @@ form.addEventListener('submit', (e) => {
 	    messageInput.focus();
     }
 });
+
+// Make unread messages read when user went bottom of the container
+//Listen scroll event
+    // if(scrolled(container)){
+    //     tempMsg = 0
+    // }

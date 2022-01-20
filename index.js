@@ -22,23 +22,28 @@ app.get('/', (req, res)=>{
 io.on('connection', socket =>{
     // If any new user joins, let other users connected to the server know!
     socket.on('new-user-joined', name =>{ 
-        users[socket.id] = name;
-        console.log(users)
+        users[socket.id] = {name: name, info: ['online']};
+        // console.log(users)
         socket.broadcast.emit('user-joined', {id: socket.id, name: name} );
-        socket.emit('receive-names', users);
+        socket.emit('welcome', users);
     });
 
     // If someone sends a message, broadcast it to other people
     socket.on('send', message =>{
-        socket.broadcast.emit('receive', {message: message, name: users[socket.id]})
+        console.log(users[socket.id])
+        try{
+            socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name']})
+        }
+        catch{
+            console.log("Error! Someone who has been disconnected trying to send a message")
+        }
     });
 
     // If someone leaves the chat, let others know 
     socket.on('disconnect', message =>{
         socket.broadcast.emit('left', socket.id);
         delete users[socket.id];
-        console.log(users)
-        socket.emit('receive-names', users);
+        // console.log(users)
     });
 })
 
