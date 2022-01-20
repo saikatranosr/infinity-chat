@@ -7,7 +7,12 @@ html{
   scroll-behavior: smooth;
 }
 body {
-  --theme-color: rgb(148,12,122);
+    /*
+   color1:  #3978c5
+  color2:   #4a86c6
+    */
+  --theme-color: #3978c5;
+  --theme-gradiant: linear-gradient(200deg, rgba(57,120,197,1) 35%, rgba(74,134,198,1) 100%);
   --gray: lightgray;
   --light-gray: rgb(237,237,237);
   height: 100vh;
@@ -26,7 +31,7 @@ nav {
   box-shadow: gray 1px 0px 1px 0px;
 }
 .logo {
-  height: 2rem;
+  height: 3rem;
 }
 #title {
   margin: 0 5px;
@@ -94,7 +99,7 @@ nav {
 }
 
 .right {
-  background: var(--theme-color);
+  background: var(--theme-gradiant);
   color: white;
   float: right;
   clear: both;
