@@ -35,7 +35,7 @@ io.on('connection', socket =>{
             socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name']})
         }
         catch{
-            console.log("Error! Someone who has been disconnected trying to send a message")
+            socket.emit('alert', "Your message couldn't be send, You are disconnected.")
         }
     });
 

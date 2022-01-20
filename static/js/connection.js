@@ -36,3 +36,7 @@ socket.on('left', id =>{
 socket.on('disconnect', function(){
     alert("You lost connection!, reload to connect again")
 });
+
+socket.on('alert', e => {
+    alert(e);
+});
