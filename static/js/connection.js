@@ -4,7 +4,8 @@ socket.emit('new-user-joined', name);
 
 // Welcome a user when welcome him/her and takes the users object and show.
 socket.on('welcome', e => {
-    users = e;
+    users = e.obj;
+    delete users[e.myId]
     console.log(users)
     appendMessage('', `${name}, Welcome to Infinity Chat.`, 'center')
     appendUser.renderAll()

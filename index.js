@@ -25,7 +25,7 @@ io.on('connection', socket =>{
         users[socket.id] = {name: name, info: ['online']};
         // console.log(users)
         socket.broadcast.emit('user-joined', {id: socket.id, name: name} );
-        socket.emit('welcome', users);
+        socket.emit('welcome', {obj: users, myId: socket.id});
     });
 
     // If someone sends a message, broadcast it to other people
