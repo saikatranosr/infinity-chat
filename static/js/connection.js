@@ -40,3 +40,12 @@ socket.on('disconnect', function(){
 socket.on('alert', e => {
     alert(e);
 });
+
+messageInput.addEventListener('input', ()=> {
+    socket.emit('typing');
+});
+
+socket.on('user-typing', e => {
+    appendUser.typing(e);
+
+});

@@ -10,12 +10,12 @@ nav.noselect
   img.logo(src='/media/logo.png' alt='')
   p#title Infinity Chat
 #main
-  #users
+  #users.noselect
   
   .chatBox
     .container
     form.send#send-container(action='#')
-      input#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
+      input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
       button.btn.noselect(type='submit')
         span.material-icons send
 script(src="/socket.io/socket.io.js")

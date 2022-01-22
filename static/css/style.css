@@ -20,7 +20,7 @@ body {
 }
 nav {
   padding: 0 3vw;
-  /*position: sticky;*/
+  /*position: sticky;*/ 
   /*top: 0;*/
   /*left: 0;*/
   height: 40px;
@@ -131,10 +131,15 @@ nav {
   border-radius: 10000px;
   background: var(--light-gray);
   height: 45px;
-  padding: 0 9px;
+  padding: 0 12px;
   font-size: 1.1rem;
   margin: 0;
   width: calc(100% - 68px);
+  caret-color: var(--theme-color);
+}
+
+#messageInp:focus{
+    outline: none;
 }
 
 .btn {

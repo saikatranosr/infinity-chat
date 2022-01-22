@@ -62,7 +62,7 @@ function AppendUser(){
     let nameElement = document.createElement('div');
     let statusElement = document.createElement('div');
     userElement.classList.add('user');
-    userElement.id = data.idKey;
+    userElement.id = `user-${data.idKey}`;
     nameElement.classList.add('userName');
     statusElement.classList.add('info');
     statusElement.classList.add(data.info[0]);
@@ -74,9 +74,6 @@ function AppendUser(){
     switch (data.info[0]) {
         case 'online':
             statusElement.innerText = "online";
-            break;
-        case 'typing':
-            statusElement.innerText = "typing...";
             break;
         case 'offline':
             lastOnline = `${data.info[1].getHours()}:${data.info[1].getMinutes()}`
@@ -95,10 +92,21 @@ function AppendUser(){
   
   // To remove a user, Tekes id
   this.removeUser = (e) => {
-    document.getElementById(e).remove()
+    document.getElementById(`user-${e}`).remove()
   }
   
-}
+  this.typing = (e) => {
+     let elem = document.querySelector(`#user-${e} .info`);
+     elem.innerText = "typing...";
+     console.log(e+' is typing');
+     typeTimeout = setTimeout(()=> {
+         elem.innerText = "online";
+     }, 1000);
+  }
+  
+  
+} // End of Function
+
 appendUser = new AppendUser();
 
 // Prevent from Back
@@ -130,6 +138,12 @@ form.addEventListener('submit', (e) => {
 	    messageInput.focus();
     }
 });
+
+window.oncontextmenu = function(event) {
+     event.preventDefault();
+     event.stopPropagation();
+     return false;
+};
 
 // Make unread messages read when user went bottom of the container
 //Listen scroll event

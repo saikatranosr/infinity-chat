@@ -45,7 +45,13 @@ io.on('connection', socket =>{
         delete users[socket.id];
         // console.log(users)
     });
-})
+    
+    socket.on('typing', () => {
+        socket.broadcast.emit('user-typing', socket.id);
+    })
+        
+    
+});
 
 // Starting server
 server.listen(3000, () => {
