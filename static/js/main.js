@@ -4,6 +4,7 @@ const messageInput = document.getElementById('messageInp');
 const container = document.querySelector(".container");
 const usersContainer = document.getElementById('users');
 const sendBtn = document.getElementById('sendBtn');
+const moreMenu = document.getElementById('more-menu');
 
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
@@ -69,15 +70,14 @@ function AppendUser(){
     userElement.append(nameElement);
     userElement.append(statusElement);
     nameElement.innerText = data.name;
-    statusElement.innerText = (data.info[0] == 'online') ? "online" : ((data.info[0] == 'typing') ? "typing..." : ``)
+    statusElement.innerText = (data.info[0] == 'online') ? "online" : data.info[1]
     
     switch (data.info[0]) {
         case 'online':
             statusElement.innerText = "online";
             break;
         case 'offline':
-            lastOnline = `${data.info[1].getHours()}:${data.info[1].getMinutes()}`
-            statusElement.innerText = lastOnline;
+            statusElement.innerText = data.info[1];
             break;
     }
     usersContainer.append(userElement);
@@ -104,6 +104,15 @@ function AppendUser(){
      }, 1000);
   }
   
+  this.online = (e) => {
+     let elem = document.querySelector(`#user-${e} .info`);
+     elem.innerText = "online";
+  }
+  this.offline = (e) => {
+     let elem = document.querySelector(`#user-${e.id} .info`);
+     elem.innerText = e.time;
+  }
+  
   
 } // End of Function
 
@@ -128,16 +137,6 @@ if(name == '' || name == null || name == undefined){
 
 
 // If the form gets submitted, send server the message
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const message = messageInput.value;
-    if (message !== ""){
-	    appendMessage('', message, 'right');
-	    socket.emit('send', message);
-	    messageInput.value = '';
-	    messageInput.focus();
-    }
-});
 
 window.oncontextmenu = function(event) {
      event.preventDefault();
@@ -150,3 +149,8 @@ window.oncontextmenu = function(event) {
     // if(scrolled(container)){
     //     tempMsg = 0
     // }
+    
+// More menu
+moreMenu.addEventListener('click', ()=>{
+  alert("This feature is comming soon");
+});

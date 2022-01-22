@@ -11,6 +11,17 @@ socket.on('welcome', e => {
     appendUser.renderAll()
 });
 
+form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    const message = messageInput.value;
+    if (message != ""){
+	    appendMessage('', message, 'right');
+	    socket.emit('send', message);
+	    messageInput.value = '';
+	    messageInput.focus();
+    }
+});
+
 // If a new user joins, receive his/her name from the server
 socket.on('user-joined', e =>{
     appendMessage('', `${e.name} joined the chat`, 'center')
@@ -48,5 +59,23 @@ messageInput.addEventListener('input', ()=> {
 
 socket.on('user-typing', e => {
     appendUser.typing(e);
+});
 
+socket.on('user-online', e =>{
+  appendUser.online(e);
+  users[e].info = ['online'];
+});
+
+socket.on('user-offline', e =>{
+  appendUser.offline(e);
+  users[e.id].info = ['offline', e.time];
+});
+
+document.addEventListener("visibilitychange", function() {
+  if (document.visibilityState == 'visible') {
+    socket.emit('online');
+  }
+  else {
+    socket.emit('offline');
+  }
 });

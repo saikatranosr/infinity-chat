@@ -6,15 +6,13 @@
 html{
   scroll-behavior: smooth;
 }
-body {
-    /*
-   color1:  #3978c5
-  color2:   #4a86c6
-    */
+:root{
   --theme-color: #3978c5;
   --theme-gradiant: linear-gradient(200deg, rgba(57,120,197,1) 35%, rgba(74,134,198,1) 100%);
   --gray: lightgray;
   --light-gray: rgb(237,237,237);
+}
+body {
   height: 100vh;
   overflow-y: hidden;
 }
@@ -27,8 +25,13 @@ nav {
   width: auto;
   display: flex;
   align-items: center;
+  justify-content: space-between;
   background: white;
   box-shadow: gray 1px 0px 1px 0px;
+}
+.titleContainer{
+  display: flex;
+  align-items: center;
 }
 .logo {
   height: 3rem;
@@ -38,6 +41,9 @@ nav {
   font-size: 1.5rem;
   font-weight: bold;
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+#more-menu:active{
+  background: var(--light-gray);
 }
 
 #main{

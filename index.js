@@ -48,7 +48,29 @@ io.on('connection', socket =>{
     
     socket.on('typing', () => {
         socket.broadcast.emit('user-typing', socket.id);
-    })
+    });
+    
+    socket.on('online', () =>{
+        socket.broadcast.emit('user-online', socket.id);
+        try{
+          users[socket.id].info = ['online'];
+        }
+        catch{
+          console.log('err');
+        }
+    });
+    
+    socket.on('offline', () =>{
+      let myDate = new Date();
+      lastOnline = `${myDate.getHours()}:${myDate.getMinutes()}`
+      socket.broadcast.emit('user-offline', {id: socket.id, time: lastOnline});
+      try{
+        users[socket.id].info = ['offline', lastOnline];
+      }
+      catch{
+        console.log('err');
+      }
+    });
         
     
 });
