@@ -15,12 +15,26 @@ nav.noselect
 #main
   #users.noselect
   
-  .chatBox
+  .chatBox.noselect
     .container
-    form.send#send-container(action='#')
-      input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
-      button.btn.noselect(type='submit')
-        span.material-icons send
+      #goToEnd
+        span.material-icons#goToEndBtn arrow_downward
+      form.send#send-container(action='#')
+        input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
+        button#sendBtn(type='submit')
+          span.material-icons send
+
+#loadingScreen.over.noselect
+  img(src='/media/logo.png' alt='')
+  p Loading...
+  
+#myPrompt.over.noselect
+  img(src='/media/logo.png' alt='')
+  form.content#nameForm
+    label(for='nameInp') Enter your name
+    input.inp#nameInp(type='text' autocomplete='off')
+    button.btn.btn-1#nameBtn(type='submit') OK
+    
 script(src="/socket.io/socket.io.js")
-script(src='/js/main.js')
 script(src='/js/connection.js')
+script(src='/js/main.js')

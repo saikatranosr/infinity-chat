@@ -1,3 +1,4 @@
+function connectIO(name){
 const socket = io();
 
 socket.emit('new-user-joined', name);
@@ -79,3 +80,4 @@ document.addEventListener("visibilitychange", function() {
     socket.emit('offline');
   }
 });
+}

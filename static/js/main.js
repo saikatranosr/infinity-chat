@@ -6,6 +6,7 @@ const usersContainer = document.getElementById('users');
 const sendBtn = document.getElementById('sendBtn');
 const moreMenu = document.getElementById('more-menu');
 
+let name;
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
 
@@ -128,11 +129,6 @@ document.body.onLoad='noBack();';
 document.body.onpageshow='if (event.persisted) noBack();';
 document.body.onUnload="";
 
-// Ask new user for his/her name and let the server know
-let name = prompt("Enter your name to join");
-if(name == '' || name == null || name == undefined){
-    name = "Kitty"
-}
 // const name = "Saikat";
 
 
@@ -144,13 +140,55 @@ window.oncontextmenu = function(event) {
      return false;
 };
 
+goToEndBtn.addEventListener('click', ()=> {
+  container.scrollTop = container.scrollHeight;
+  console.log(messageInput.activeElement)
+  if (messageInput.activeElement){
+    messageInput.focus()
+  }
+})
+
+
 // Make unread messages read when user went bottom of the container
-//Listen scroll event
-    // if(scrolled(container)){
+goToEnd.style.display = 'none'; //Defalt
+container.addEventListener('scroll', (e)=>{
+  if(scrolled(container)){
+    goToEnd.style.display = 'none';
+  }
+  else{
+    goToEnd.style.display = 'flex';
+  }
+  
+})
     //     tempMsg = 0
     // }
     
 // More menu
-moreMenu.addEventListener('click', ()=>{
+
+moreMenu.addEventListener('click', () => {
   alert("This feature is comming soon");
 });
+  
+p = new Promise((resolve, reject) => {
+  window.addEventListener('DOMContentLoaded', () => {
+    loadingScreen.style.display = 'none';
+    nameInp.focus();
+  });
+  resolve(1);
+})
+
+p2 = new Promise((resolve, reject)=>{
+  p.then((e)=>{
+    nameForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      name = nameInp.value;
+      myPrompt.style.display = 'none';
+      resolve(1);
+    });
+  });
+});
+ 
+p2.then((e)=>{
+  connectIO(name);
+})
+

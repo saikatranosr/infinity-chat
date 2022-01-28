@@ -8,9 +8,12 @@ html{
 }
 :root{
   --theme-color: #3978c5;
+  --theme-dark: rgb(53,91,136);
   --theme-gradiant: linear-gradient(200deg, rgba(57,120,197,1) 35%, rgba(74,134,198,1) 100%);
   --gray: lightgray;
   --light-gray: rgb(237,237,237);
+  --semi-tp:rgba(255,255,255,0.637);
+  --bg: white;
 }
 body {
   height: 100vh;
@@ -121,14 +124,14 @@ nav {
 
 .send {
   /*border: 1px solid red;*/
-  position: sticky;
+  position: fixed;
   bottom: 0;
   right: 0;
   height: auto;
   display: flex;
   align-items: center;
   flex-wrap: nowrap;
-  background: white;
+  background: var(--bg);
   padding: 5px;
   margin: 0;
 }
@@ -148,7 +151,42 @@ nav {
     outline: none;
 }
 
-.btn {
+.btn{
+  height: 30px;
+  width: 50px;
+  border: none;
+  border-radius: 4px;
+  color: white;
+  margin: 4px;
+  transition: 0.5s;
+}
+.btn-1{
+  background: var(--theme-color);
+}
+.btn-2{
+  background: var(--light-gray);
+}
+.btn-1:active{
+  background: var(--theme-dark);
+}
+.btn-2:active{
+  background: var(--gray);
+}
+
+.inp{
+  height: 30px;
+  width: 200px;
+  border: none;
+  outline: 1px solid var(--theme-color);
+  border-radius: 5px;
+  margin: 4px 0;
+  padding: 0 5px;
+}
+.inp:focus{
+  outline: 2px solid var(--theme-color);
+}
+
+#sendBtn {
   border: none;
   background: none;
   color: var(--theme-color);
@@ -160,6 +198,49 @@ nav {
   height: 40px;
 }
 
+.over{
+  font-family: Arial,Sans-Serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  background: #ffffffce;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+#loadingScreen{
+  z-index: 2;
+}
+.over img{
+  height: 100px;
+  width: 100px;
+}
+
+.content{
+  display: flex;
+  flex-direction: column;
+}
+.content button{
+  align-self: flex-end;
+}
+
+#goToEnd{
+  position: fixed;
+  bottom: 100px;
+  right: 20px;
+  padding: 10px;
+  background: var(--semi-tp);
+  box-shadow: gray 1px 1px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+}
+#goToEnd span{
+}
 
 @media only screen and (max-width: 500px){
   #main{
