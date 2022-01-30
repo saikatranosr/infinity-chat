@@ -1,0 +1,22 @@
+{
+  "name": "Infinity Chat - The real ChatRoom by Saikat",
+  "short_name": "Infinity Chat",
+  "description": "Progressive Web App that lists games submitted to the A-Frame category in the js13kGames 2017 competition.",
+  "icons": [
+    {
+      "src": "/media/logo.svg",
+      "sizes": "40×40",
+      "type": "image/png"
+    },
+    // ...
+    {
+      "src": "/media/logo.svg",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "display": "standalone",
+  "theme_color": "white",
+  "background_color": "white"
+}

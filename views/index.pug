@@ -5,31 +5,31 @@ head
   title Infinity Chat - The Real Chatroom by Saikat
   link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(rel='stylesheet' href='/css/style.css')
+  link(rel='manifest' href='/js/my.webmanifest')
   
-nav.noselect
-  div.titleContainer
-    img.logo(src='/media/logo.png' alt='')
-    p#title Infinity Chat
-  div
-    span.material-icons#more-menu more_vert
-#main
-  #users.noselect
-  
-  .chatBox.noselect
-    .container
-      #goToEnd
-        span.material-icons#goToEndBtn arrow_downward
-      form.send#send-container(action='#')
-        input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
-        button#sendBtn(type='submit')
-          span.material-icons send
+.main.noselect
+  nav
+    div.titleContainer
+      img.logo(src='/media/logo.svg', alt='logo')
+      p#title Infinity Chat
+    div
+      span.material-icons#more-menu more_vert
+  .users.noselect
+  .chats
+  form.send(action='#')
+    input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
+    button#sendBtn(type='submit')
+      span.material-icons send
 
+#goToEnd.end
+  span.material-icons#goToEndBtn arrow_downward
+  span#msgCount 
 #loadingScreen.over.noselect
-  img(src='/media/logo.png' alt='')
+  img(src='/media/logo.svg' alt='')
   p Loading...
   
 #myPrompt.over.noselect
-  img(src='/media/logo.png' alt='')
+  img(src='/media/logo.svg' alt='')
   form.content#nameForm
     label(for='nameInp') Enter your name
     input.inp#nameInp(type='text' autocomplete='off')

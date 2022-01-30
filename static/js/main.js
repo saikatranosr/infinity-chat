@@ -1,11 +1,11 @@
 // Get DOM elements in respective Js variables
-const form = document.getElementById('send-container');
+const form = document.querySelector('.send');
 const messageInput = document.getElementById('messageInp');
-const container = document.querySelector(".container");
-const usersContainer = document.getElementById('users');
+const container = document.querySelector(".chats");
+const usersContainer = document.querySelector('.users');
 const sendBtn = document.getElementById('sendBtn');
 const moreMenu = document.getElementById('more-menu');
-
+const msgCount = document.querySelector('#msgCount');
 let name;
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
@@ -40,14 +40,16 @@ function appendMessage(sender, message, position){
     container.append(messageContainer);
     
     // Scrolling properities
-    if(position =='left'){
+    if(position =='left' || position =='center'){
         // audio.play();
         if (scroled_val){
-    	container.scrollTop = container.scrollHeight
+         	container.scrollTop = container.scrollHeight;
         }
         else{
-            //Pending
-           // console.log("Unread messages:"+ tempMsg+1);
+          tempMsg+=1;
+          msgCount.innerText = tempMsg;
+          goToEnd.style.background = 'var(--theme-color)';
+          goToEnd.style.color = 'white';
         }
     }
     if(position =='right'){ 
@@ -119,7 +121,15 @@ function AppendUser(){
 
 appendUser = new AppendUser();
 
-// Prevent from Back
+//Setting body height
+let vh = window.innerHeight * 0.01;
+document.documentElement.style.setProperty('--vh', `${vh}px`);
+window.addEventListener('resize', ()=>{
+  let vh = window.innerHeight * 0.01;
+  document.documentElement.style.setProperty('--vh', `${vh}px`);
+});
+
+//Prevent from Back
 window.history.forward();
     function noBack()
     {
@@ -154,19 +164,22 @@ goToEnd.style.display = 'none'; //Defalt
 container.addEventListener('scroll', (e)=>{
   if(scrolled(container)){
     goToEnd.style.display = 'none';
+    tempMsg = 0;
+    msgCount.innerText = '';
+    goToEnd.style.background = 'var(--semi-tp)';
+    goToEnd.style.color = 'black'
+
   }
   else{
     goToEnd.style.display = 'flex';
   }
-  
-})
-    //     tempMsg = 0
-    // }
+});
     
 // More menu
 
 moreMenu.addEventListener('click', () => {
-  alert("This feature is comming soon");
+  // alert("This feature is comming soon");
+  document.location.reload(true)
 });
   
 p = new Promise((resolve, reject) => {
@@ -191,4 +204,3 @@ p2 = new Promise((resolve, reject)=>{
 p2.then((e)=>{
   connectIO(name);
 })
-
