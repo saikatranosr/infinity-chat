@@ -5,9 +5,9 @@
 :root{
   --theme-color: #3978c5;
   --theme-dark: rgb(53,91,136);
-  --theme-gradiant: linear-gradient(200deg, rgb(25,86,194) 35%, rgb(74,163,218) 100%);
+  --theme-gradiant: linear-gradient(200deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%);
   --gray: lightgray;
-  --light-gray: rgb(237,237,237);
+  --light-gray: rgb(240,240,240);
   --semi-tp:rgba(255,255,255,0.637);
   --bg: white;
 }
@@ -50,7 +50,7 @@ nav{
   align-items: center;
   justify-content: center;
   flex-wrap: nowrap;
-  padding: 0 4px;
+  /*border: 1px solid tomato;*/
 }
 
 /*Child Elements*/
@@ -100,7 +100,7 @@ nav{
   font-size: 0.8rem;
 }
 .left {
-  background: var(--gray);
+  background: var(--light-gray);
   float: left;
   clear: both;
 }
@@ -114,26 +114,38 @@ nav{
 
 .center {
   font-size: 0.7rem;
-  background: var(--gray);
+  background: var(--light-gray);
   color: var(--theme-color);
   float: left;
   clear: both;
 }
-
-#messageInp {
-  border: none;
-  border-radius: 10000px;
-  background: var(--light-gray);
-  height: 45px;
-  padding: 0 12px;
-  font-size: 1.1rem;
-  margin: 0;
-  width: calc(100% - 68px);
-  caret-color: var(--theme-color);
+.time-stamp{
+  font-size: 0.7rem;
+  float: right;
 }
-
+.right .time-stamp{
+  color: var(--light-gray);
+}
+.left .time-stamp{
+  color: darkgray;
+}
+.center .time-stamp{
+  color: darkgray;
+}
+#messageInp {
+  font-family: Arial, Sans-Serif;
+  border: none;
+  border-radius: 1rem;
+  background: var(--light-gray);
+  height: 25px;
+  padding: 6px 12px;
+  font-size: 1.1rem;
+  width: calc(100% - 80px);
+  caret-color: var(--theme-color);
+  resize: none;
+}
 #messageInp:focus{
-    outline: none;
+    outline: 2px solid var(--theme-color);
 }
 
 .btn{

@@ -1,7 +1,7 @@
 doctype html
 head
   meta(charset='UTF-8')
-  meta(name='viewport' content='width=device-width, initial-scale=1.0')
+  meta(name='viewport' content='width=device-width, initial-scale=1.0, ')
   title Infinity Chat - The Real Chatroom by Saikat
   link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(rel='stylesheet' href='/css/style.css')
@@ -17,11 +17,11 @@ head
   .users.noselect
   .chats
   form.send(action='#')
-    input.noselect#messageInp(type='text' autocomplete='off' name='messageInp' placeholder='Type a message...')
+    textarea#messageInp(autocomplete='off' name='messageInp' placeholder='Type a message...')
     button#sendBtn(type='submit')
       span.material-icons send
 
-#goToEnd.end
+#goToEnd.end.noselect
   span.material-icons#goToEndBtn arrow_downward
   span#msgCount 
 #loadingScreen.over.noselect
@@ -36,5 +36,6 @@ head
     button.btn.btn-1#nameBtn(type='submit') OK
     
 script(src="/socket.io/socket.io.js")
+script(src='/js/myfoos.js')
 script(src='/js/connection.js')
 script(src='/js/main.js')

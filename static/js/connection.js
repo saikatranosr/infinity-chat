@@ -19,6 +19,12 @@ form.addEventListener('submit', (e) => {
 	    appendMessage('', message, 'right');
 	    socket.emit('send', message);
 	    messageInput.value = '';
+	    messageInput.style.height = '25px';
+	    if (mediaQuery.matches){
+      mainContainer.style.gridTemplateRows = `40px 50px 1fr 50px`
+      } else {
+         mainContainer.style.gridTemplateRows = `40px 1fr 50px`;
+       }
 	    messageInput.focus();
     }
 });
