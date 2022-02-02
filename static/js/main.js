@@ -1,5 +1,20 @@
 appendUser = new AppendUser();
+menu = new Menu()
+theme = new Theme()
 
+//If the browser is in dark mode make it dark
+if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+    theme.theme('dark');
+}
+
+// Dark mode on sunset
+if (new Date().getHours() > 17){
+  theme.theme('dark');
+}
+window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
+    let newColorScheme = e.matches ? "dark" : "light";
+    theme.theme(newColorScheme);
+});
 //Setting body height
 let vh = window.innerHeight * 0.01;
 document.documentElement.style.setProperty('--vh', `${vh}px`);
@@ -19,17 +34,26 @@ container.oncontextmenu = function(event) {
 goToEndBtn.addEventListener('click', ()=> {
   container.scrollTop = container.scrollHeight;
   console.log(messageInput.activeElement)
-  if (messageInput.activeElement){
+  if (document.activeElement == messageInput){
     messageInput.focus()
   }
 })
 
 // Dealing with Textarea Height
-  // if (mediaQuery.matches){
-  //   mainContainer.style.gridTemplateRows = `40px 50px 1fr ${30 + newHeight}px`;
-  // } else {
-  //   mainContainer.style.gridTemplateRows = `40px 1fr ${30 + newHeight}px`;
-  // }
+messageInput.addEventListener('input', ()=>{
+  if(messageInput.scrollHeight < 100){
+    let newHeight = messageInput.scrollHeight;
+    messageInput.style.height = (newHeight - 12) + 'px';
+    if (mediaQuery.matches){
+      mainContainer.style.gridTemplateRows = `40px 50px 1fr ${11 + newHeight}px`;
+    } else {
+      mainContainer.style.gridTemplateRows = `40px 1fr ${11 + newHeight}px`;
+    }
+    if(scrolled(container)){
+      container.scrollTop = container.scrollHeight;
+    }
+  }
+});
 
 // Send the message if someone clicks ENTER
 messageInput.addEventListener("keypress", ()=>{
@@ -42,7 +66,7 @@ messageInput.addEventListener("keypress", ()=>{
 // Make unread messages read when user went bottom of the container
 goToEnd.style.display = 'none'; //Defalt
 container.addEventListener('scroll', (e)=>{
-  if(scrolled(container)){
+  if(scrolled_up(container)){
     goToEnd.style.display = 'none';
     tempMsg = 0;
     msgCount.innerText = '';
@@ -55,9 +79,63 @@ container.addEventListener('scroll', (e)=>{
     
 // More menu
 moreMenu.addEventListener('click', () => {
-  // alert("This feature is comming soon");
-  document.location.reload(true)
-});
+  if (menu.isActive()){
+    menu.hideAll()
+  }
+  else {
+    menu.show(moreMenu, [{
+      icon: 'refresh',
+      id: 'reload_page',
+      text: "Reload",
+      doThat: ()=>{
+        document.location.reload(true)
+      }
+    },{
+      icon: 'brightness_4',
+      text: 'Theme',
+      doThat: ()=>{
+        menu.hideAll()
+        menu.show(moreMenu, [{
+          icon: (settings.theme == 'light') ? "done" : 'check_box_outline_blank',
+          text: "Light",
+          doThat: ()=>{
+            theme.theme('light');
+            menu.hideAll();
+          }
+        },
+        {
+          icon: (settings.theme == 'dark') ? "done" : 'check_box_outline_blank',
+          text: "Dark",
+          doThat: ()=>{
+            theme.theme('dark');
+            menu.hideAll();
+          }
+        }])
+      }
+    },
+    {
+      icon: 'palette',
+      text: 'Color',
+      doThat: ()=>{
+        menu.show(moreMenu, [{
+          icon: 'done',
+          text: "Aqua Blue",
+          doThat: ()=>{
+            theme.color('aqua-blue');
+          }
+        },
+        {
+          icon: 'done',
+          text: "Tomato Red",
+          id: "tomato-red",
+          doThat: ()=>{
+            theme.theme('tomato-red');
+          }
+        }])
+      }
+    }] )
+  }
+}); // End of Event listener
 
 // Enter users name
 p = new Promise((resolve, reject) => {
@@ -68,13 +146,19 @@ p = new Promise((resolve, reject) => {
   resolve(1);
 })
 
+// Get name from the user
 p2 = new Promise((resolve, reject)=>{
   p.then((e)=>{
     nameForm.addEventListener('submit', (e) => {
       e.preventDefault();
-      name = (nameInp.value == '') ? "Kitty" : nameInp.value;
-      
+      name = nameInp.value.trim();
+      if (name.length == 0){
+        name = "Kitty";
+        } else if (name.length > 10){
+        name = name.substr(0, 9).trim();
+      }
       myPrompt.style.display = 'none';
+      messageInput.focus();
       resolve(1);
     });
   });

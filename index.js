@@ -62,7 +62,7 @@ io.on('connection', socket =>{
     
     socket.on('offline', () =>{
       let myDate = new Date();
-      lastOnline = `${myDate.getHours()}:${myDate.getMinutes()}`
+      lastOnline = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
       socket.broadcast.emit('user-offline', {id: socket.id, time: lastOnline});
       try{
         users[socket.id].info = ['offline', lastOnline];

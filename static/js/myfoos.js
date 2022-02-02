@@ -9,9 +9,14 @@ const msgCount = document.querySelector('#msgCount');
 const sendContainer = document.querySelector('.send')
 const mainContainer = document.querySelector('.main');
 const mediaQuery = window.matchMedia('(max-width: 500px)')
+let root = document.querySelector(':root');
 let name;
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
+let settings = {
+  theme: 'light',
+  color: 'aqua-blue'
+}
 
 // Audio that will play on receiving messages
 var audio = new Audio('/media/ting.mp3');
@@ -22,10 +27,15 @@ function scrolled(e) {
     return true;
   }
 }
+function scrolled_up(e) {
+  if (e.offsetHeight + e.scrollTop >= e.scrollHeight-500) {
+    return true;
+  }
+}
 // Function which will append event info to the contaner
 function appendMessage(sender, message, position){
     let myDate = new Date();
-    timeStamp = `${myDate.getHours()}:${myDate.getMinutes()}`
+    timeStamp = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
     const messageContainer = document.createElement('div');
     const senderElement = document.createElement('div');
     const messageElement = document.createElement('div');
@@ -125,3 +135,70 @@ function AppendUser(){
      elem.innerText = e.time;
   }
 } // End of Function
+
+function Menu(){
+  this.show = (target, data)=>{
+    this.hideAll()
+    elem = document.createElement('div');
+    elem.classList.add('menu');
+    elem.classList.add('noselect');
+    let innerElem = [];
+    for (let i=0; i<data.length; i++){
+      innerElem[i] = document.createElement('div');
+      _tmp_icon = document.createElement('span');
+      _tmp_icon.classList.add('material-icons');
+      _tmp_icon.innerText = data[i].icon;
+      _tmp_text = document.createElement('span');
+      _tmp_text.innerText = data[i].text;
+      innerElem[i].onclick = data[i].doThat;
+      innerElem[i].append(_tmp_icon);
+      innerElem[i].append(_tmp_text);
+      elem.append(innerElem[i]);
+    }
+    document.body.append(elem);
+    if(window.innerWidth - target.offsetLeft < elem.clientWidth - 10){
+      elem.style.left = (target.offsetLeft - elem.clientWidth) + 'px';
+    }
+    else {
+      elem.style.left = target.offsetLeft + 'px';
+    }
+    if(window.innerHeight - target.offsetTop < elem.clientHeight - 10){
+      elem.style.top = (target.offsetTop - elem.clientWidth) + 'px';
+    }
+    else {
+      elem.style.top = target.offsetTop + 'px';
+    }
+  }
+  this.hideAll = ()=>{
+    document.querySelectorAll('.menu').forEach((e)=>{
+      e.remove()
+    });
+  }
+  
+  this.isActive = ()=>{
+    return (document.querySelectorAll('.menu').length != 0)
+  }
+}
+
+function Theme(){
+  this.theme = (e)=>{
+    if (e=='light'){
+      settings.theme = 'light';
+      root.style.setProperty('--bg', 'white');
+      root.style.setProperty('--color', 'black');
+      root.style.setProperty('--gray', 'lightgray');
+      root.style.setProperty('--light-gray', 'rgb(240,240,240)');
+      root.style.setProperty('--theme-color', '#3978c5');
+    } else if (e=='dark'){
+      settings.theme = 'dark';
+      root.style.setProperty('--bg', '#15181f');
+      root.style.setProperty('--color', 'white');
+      root.style.setProperty('--gray', '#4d4d4d');
+      root.style.setProperty('--light-gray', 'rgb(60,60,60)');
+      root.style.setProperty('--theme-color', '#5aa5ff');
+    }
+  }
+  this.color = (e)=>{
+    alert('theme changed');
+  }
+}

@@ -14,19 +14,22 @@ socket.on('welcome', e => {
 
 form.addEventListener('submit', (e) => {
     e.preventDefault();
-    const message = messageInput.value;
-    if (message != ""){
-	    appendMessage('', message, 'right');
-	    socket.emit('send', message);
-	    messageInput.value = '';
-	    messageInput.style.height = '25px';
-	    if (mediaQuery.matches){
-      mainContainer.style.gridTemplateRows = `40px 50px 1fr 50px`
-      } else {
-         mainContainer.style.gridTemplateRows = `40px 1fr 50px`;
-       }
-	    messageInput.focus();
+    const message = messageInput.value.trim();
+    if (message.length !== 0){
+  	  appendMessage('', message, 'right');
+  	  socket.emit('send', message);
+  	  messageInput.value = '';
+    } else{
+  	  messageInput.value = '';
+      alert("Can not send empty message");
     }
+	  messageInput.style.height = '25px';
+	  if (mediaQuery.matches){
+      mainContainer.style.gridTemplateRows = `40px 50px 1fr 50px`
+    } else {
+      mainContainer.style.gridTemplateRows = `40px 1fr 50px`;
+    }
+	  messageInput.focus();
 });
 
 // If a new user joins, receive his/her name from the server
