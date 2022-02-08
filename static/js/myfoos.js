@@ -34,6 +34,7 @@ function scrolled_up(e) {
 }
 // Function which will append event info to the contaner
 function appendMessage(sender, message, position){
+    let emoji = true;
     let myDate = new Date();
     timeStamp = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
     const messageContainer = document.createElement('div');
@@ -47,6 +48,16 @@ function appendMessage(sender, message, position){
     timeElement.classList.add('time-stamp');
     senderElement.innerText = sender;
     messageElement.innerText = message;
+    let msgArr = Array.from(message);
+    for (let i=0; i<msgArr.length && emoji; i++){
+      // console.log(message[i])
+      emoji = /\p{Extended_Pictographic}/u.test(msgArr[i]);
+      // alert(/\p{Extended_Pictographic}/u.test(message));
+      // alert(message)
+      // alert('tt' + emoji)
+      }
+    // alert(emoji)
+    if(emoji){messageElement.style.fontSize = '2rem'; }
     timeElement.innerText = timeStamp;
     
     // Storing the scroll values before appending
