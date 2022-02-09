@@ -7,8 +7,9 @@ socket.emit('new-user-joined', name);
 socket.on('welcome', e => {
     users = e.obj;
     delete users[e.myId]
+    myId = e.myId;
     console.log(users)
-    appendMessage('', `${name}, Welcome to Infinity Chat.`, 'center')
+    appendMessage.message('', `${name}, Welcome to Infinity Chat.`, 'center')
     appendUser.renderAll()
 });
 
@@ -16,8 +17,9 @@ form.addEventListener('submit', (e) => {
     e.preventDefault();
     const message = messageInput.value.trim();
     if (message.length !== 0){
-  	  appendMessage('', message, 'right');
-  	  socket.emit('send', message);
+      let msgId = `msg-${myId}-${Date.now()}`;
+  	  appendMessage.message('', message, 'right', msgId);
+  	  socket.emit('send', message, msgId);
   	  messageInput.value = '';
     } else{
   	  messageInput.value = '';
@@ -31,10 +33,13 @@ form.addEventListener('submit', (e) => {
     }
 	  messageInput.focus();
 });
+socket.on('sent', (msgId)=>{
+  appendMessage.info(msgId, 'done'); //done == tick_mark
+})
 
 // If a new user joins, receive his/her name from the server
 socket.on('user-joined', e =>{
-    appendMessage('', `${e.name} joined the chat`, 'center')
+    appendMessage.message('', `${e.name} joined the chat`, 'center')
     users[e.id] = {}
     users[e.id].name = e.name;
     users[e.id].info = ['online'];
@@ -44,7 +49,7 @@ socket.on('user-joined', e =>{
 
 // If server sends a message, receive it
 socket.on('receive', data =>{
-    appendMessage(data.name, data.message, 'left')
+    appendMessage.message(data.name, data.message, 'left', data.id)
 });
 
 // If a user leaves the chat, append the info to the container

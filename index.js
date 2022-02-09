@@ -29,10 +29,10 @@ io.on('connection', socket =>{
     });
 
     // If someone sends a message, broadcast it to other people
-    socket.on('send', message =>{
-        console.log(users[socket.id])
+    socket.on('send', (message, msgId) =>{
         try{
-            socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name']})
+            socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name'], id: msgId});
+            socket.emit('sent', msgId);
         }
         catch{
             socket.emit('alert', "Your message couldn't be send, You are disconnected.")

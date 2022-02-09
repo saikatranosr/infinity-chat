@@ -1,16 +1,16 @@
 appendUser = new AppendUser();
+appendMessage = new AppendMessage()
 menu = new Menu()
 theme = new Theme()
 
-//If the browser is in dark mode make it dark
-if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-    theme.theme('dark');
+// Getting settings
+_settings = JSON.parse(localStorage.getItem('settings'));
+if (_settings != null){
+  settings = _settings;
 }
+theme.theme(settings.theme);
+theme.color(settings.color);
 
-// Dark mode on sunset
-if (new Date().getHours() > 17){
-  theme.theme('dark');
-}
 window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', e => {
     let newColorScheme = e.matches ? "dark" : "light";
     theme.theme(newColorScheme);
@@ -100,6 +100,7 @@ moreMenu.addEventListener('click', () => {
           text: "Light",
           doThat: ()=>{
             theme.theme('light');
+            settings.theme = 'light';
             menu.hideAll();
           }
         },
@@ -108,6 +109,26 @@ moreMenu.addEventListener('click', () => {
           text: "Dark",
           doThat: ()=>{
             theme.theme('dark');
+            settings.theme = 'dark';
+            saveSettings()
+            menu.hideAll();
+          }},
+        {
+          icon: (settings.theme == 'system') ? "done" : 'check_box_outline_blank',
+          text: "System",
+          doThat: ()=>{
+            theme.theme('system');
+            settings.theme = 'system';
+            saveSettings();
+            menu.hideAll();
+          }},
+        {
+          icon: (settings.theme == 'auto') ? "done" : 'check_box_outline_blank',
+          text: "Auto",
+          doThat: ()=>{
+            theme.theme('auto');
+            saveSettings()
+            settings.theme = 'auto';
             menu.hideAll();
           }
         }])
@@ -118,18 +139,24 @@ moreMenu.addEventListener('click', () => {
       text: 'Color',
       doThat: ()=>{
         menu.show(moreMenu, [{
-          icon: 'done',
+          icon: (settings.color == 'aqua-blue') ? "done" : 'check_box_outline_blank',
           text: "Aqua Blue",
           doThat: ()=>{
             theme.color('aqua-blue');
+            settings.color = 'aqua-blue';
+            menu.hideAll()
+            saveSettings()
           }
         },
         {
-          icon: 'done',
-          text: "Tomato Red",
-          id: "tomato-red",
+          icon: (settings.color == 'tomato-red') ? "done" : 'check_box_outline_blank',
+          text: "Tomato Hotpink",
+          id: "tomato-hotpink",
           doThat: ()=>{
-            theme.theme('tomato-red');
+            theme.color('tomato-red');
+            settings.color = 'tomato-red';
+            saveSettings()
+            menu.hideAll();
           }
         }])
       }

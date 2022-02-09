@@ -14,8 +14,13 @@ let name;
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
 let settings = {
-  theme: 'light',
+  theme: 'dark',
   color: 'aqua-blue'
+}
+
+let colors = {
+  'aqua-blue': ["Aqua Blue","#3978c5","linear-gradient(-20deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%)", "hue-rotate(0deg)"],
+  'tomato-red': ["Tomato Hotpink", "tomato", "linear-gradient(-20deg, tomato 12%, hotpink 100%)", "hue-rotate(130deg)"]
 }
 
 // Audio that will play on receiving messages
@@ -33,19 +38,30 @@ function scrolled_up(e) {
   }
 }
 // Function which will append event info to the contaner
-function appendMessage(sender, message, position){
+function AppendMessage(){
+  this.message = (sender, message, position, msgId)=>{
     let emoji = true;
     let myDate = new Date();
     timeStamp = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
+    const messageFullContainer = document.createElement('div');
     const messageContainer = document.createElement('div');
     const senderElement = document.createElement('div');
     const messageElement = document.createElement('div');
-    const timeElement = document.createElement('div');
+    const infoElement = document.createElement('div');
+    const timeElement = document.createElement('span');
+    const readElement = document.createElement('span');
+    messageFullContainer.classList.add('message-full-container');
     messageContainer.classList.add('message-container');
-    messageContainer.classList.add(position);
+    messageFullContainer.id = msgId;
+    messageFullContainer.classList.add(position);
     senderElement.classList.add('sender-name');
     messageElement.classList.add('message');
+    infoElement.classList.add('message-info');
     timeElement.classList.add('time-stamp');
+    readElement.classList.add('message-read');
+    readElement.classList.add('material-icons');
+    infoElement.append(timeElement);
+    infoElement.append(readElement);
     senderElement.innerText = sender;
     messageElement.innerText = message;
     let msgArr = Array.from(message);
@@ -59,6 +75,7 @@ function appendMessage(sender, message, position){
     // alert(emoji)
     if(emoji){messageElement.style.fontSize = '2rem'; }
     timeElement.innerText = timeStamp;
+    readElement.innerText = 'send'; // done, done_all
     
     // Storing the scroll values before appending
     scroled_val = scrolled(container)
@@ -66,8 +83,9 @@ function appendMessage(sender, message, position){
     // Append
     messageContainer.append(senderElement)
     messageContainer.append(messageElement)
-    messageContainer.append(timeElement);
-    container.append(messageContainer);
+    messageContainer.append(infoElement);
+    messageFullContainer.append(messageContainer);
+    container.append(messageFullContainer);
     
     // Scrolling properities
     if(position =='left' || position =='center'){
@@ -85,6 +103,13 @@ function appendMessage(sender, message, position){
     if(position =='right'){ 
     	container.scrollTop = container.scrollHeight
     }
+  }
+  this.info = (id, info)=>{
+    const elem = document.querySelector(`#${id} .message-read`);
+    elem.innerText = info;
+    
+    
+  }
 }
 
 // Append Users names and their status
@@ -199,17 +224,35 @@ function Theme(){
       root.style.setProperty('--color', 'black');
       root.style.setProperty('--gray', 'lightgray');
       root.style.setProperty('--light-gray', 'rgb(240,240,240)');
-      root.style.setProperty('--theme-color', '#3978c5');
-    } else if (e=='dark'){
+    }
+    else if (e=='dark'){
       settings.theme = 'dark';
       root.style.setProperty('--bg', '#15181f');
       root.style.setProperty('--color', 'white');
       root.style.setProperty('--gray', '#4d4d4d');
       root.style.setProperty('--light-gray', 'rgb(60,60,60)');
-      root.style.setProperty('--theme-color', '#5aa5ff');
+    }
+    else if(e == 'system'){
+      //If the browser is in dark mode make it dark
+      if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        theme.theme('dark');
+      } else { theme.theme('light') }
+    }
+    
+    else if (e == 'auto'){
+      // Dark mode on sunset
+      if (new Date().getHours() > 17){
+        theme.theme('dark');
+      } else { theme.theme('light'); }
     }
   }
   this.color = (e)=>{
-    alert('theme changed');
+    root.style.setProperty('--theme-color', colors[e][1]);
+    root.style.setProperty('--theme-gradiant', colors[e][2]);
+    root.style.setProperty('--hue', colors[e][3]);
   }
+}
+
+function saveSettings(e){
+  localStorage.setItem('settings', JSON.stringify(settings))
 }

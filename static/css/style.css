@@ -5,12 +5,13 @@
 :root{
   --theme-color: #3978c5;
   --theme-dark: rgb(53,91,136);
-  --theme-gradiant: linear-gradient(200deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%);
+  --theme-gradiant: linear-gradient(-20deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%);
   --gray: lightgray;
   --light-gray: rgb(240,240,240);
-  --semi-tp:rgba(255,255,255,0.637);
+  --semi-tp: rgba(255,255,255,0.637);
   --bg: white;
   --color: black;
+  --hue: hue-rotate(0deg);
 }
 html{
   overflow: hidden;
@@ -79,6 +80,7 @@ nav{
 .logo {
   height: 40px;
   margin: 0 5px;
+  filter: var(--hue);
 }
 #title {
   font-size: 1.5rem;
@@ -106,54 +108,69 @@ nav{
 .userName{
   font-size: 1.2rem;
 }
-
-.message-container {
-  padding: 10px 10px 0 10px;
+.message-full-container{
+  display: flex;
   margin: 5px 0;
+  transition: .5s;
+}
+.message-container {
+  padding: 8px 10px 0 10px;
   border-radius: 1rem;
   font-family: Arial, sans-serif;
   max-width: 80%;
   word-wrap: break-word;
   transition: .5s;
 }
+}
+.left {
+  justify-content: flex-start
+}
+.right {
+  color: white;
+  justify-content: flex-end;
+}
+.right .message-container{
+  background: var(--theme-gradiant);
+}
+.left .message-container{
+  background: var(--light-gray);
+  color: var(--color);
+}
 .sender-name{
   color: var(--theme-color);
   font-size: 0.8rem;
 }
-.left {
-  background: var(--light-gray);
-  float: left;
-  clear: both;
-  color: var(--color);
-}
-
-.right {
-  background: var(--theme-gradiant);
-  color: white;
-  float: right;
-  clear: both;
-}
-
 .center {
   font-size: 0.7rem;
   background: var(--light-gray);
   color: var(--theme-color);
-  float: left;
-  clear: both;
+  justify-content: center;
 }
-.time-stamp{
-  font-size: 0.7rem;
+.message-info{
+  font-size: 0.5rem;
   float: right;
-  padding: 5px 0 5px 0;
+  padding: 3px 0 5px 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
-.right .time-stamp{
-  color: var(--light-gray);
+.message-read, .time-stamp{
+  margin: 0 1px;
 }
-.left .time-stamp{
+.message-read{
+  font-size: 0.7rem;
+}
+.right .message-info{
+  color: lightgray;
+}
+.left .message-info{
   color: darkgray;
 }
-.center .time-stamp{
+.center .message-info{
   color: darkgray;
+}
+.left .message-read, .center .message-read{
+  display: none;
 }
 #messageInp {
   font-family: Arial, Sans-Serif;
@@ -248,6 +265,7 @@ nav{
 .over img{
   height: 100px;
   width: 100px;
+  filter: var(--hue);
 }
 
 .content{
