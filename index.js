@@ -31,7 +31,7 @@ io.on('connection', socket =>{
     // If someone sends a message, broadcast it to other people
     socket.on('send', (message, msgId) =>{
         try{
-            socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name'], id: msgId});
+            socket.broadcast.emit('receive', {message: message, name: users[socket.id]['name'], id: msgId, sender: socket.id});
             socket.emit('sent', msgId);
         }
         catch{

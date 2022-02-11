@@ -24,7 +24,7 @@ let colors = {
 }
 
 // Audio that will play on receiving messages
-var audio = new Audio('/media/ting.mp3');
+// var audio = new Audio('/media/ting.mp3');
 
 // Fuction to check scroll
 function scrolled(e) {
@@ -39,7 +39,7 @@ function scrolled_up(e) {
 }
 // Function which will append event info to the contaner
 function AppendMessage(){
-  this.message = (sender, message, position, msgId)=>{
+  this.message = (sender, message, position, msgId, senderId)=>{
     let emoji = true;
     let myDate = new Date();
     timeStamp = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
@@ -55,6 +55,7 @@ function AppendMessage(){
     messageFullContainer.id = msgId;
     messageFullContainer.classList.add(position);
     senderElement.classList.add('sender-name');
+    senderElement.id = `sender-${senderId}`;
     messageElement.classList.add('message');
     infoElement.classList.add('message-info');
     timeElement.classList.add('time-stamp');
@@ -62,7 +63,18 @@ function AppendMessage(){
     readElement.classList.add('material-icons');
     infoElement.append(timeElement);
     infoElement.append(readElement);
-    senderElement.innerText = sender;
+    const nodes = document.querySelectorAll('.sender-name')
+    if(document.querySelector('.sender-name') != null){
+      console.log(nodes[nodes.length -1])
+      if (nodes[nodes.length -1].id != senderElement.id){
+        senderElement.innerText = sender;
+      } else {
+        senderElement.innerText = '';
+        
+      }
+    } else {
+      senderElement.innerText = sender;
+    }
     messageElement.innerText = message;
     let msgArr = Array.from(message);
     for (let i=0; i<msgArr.length && emoji; i++){
@@ -81,8 +93,8 @@ function AppendMessage(){
     scroled_val = scrolled(container)
     
     // Append
-    messageContainer.append(senderElement)
-    messageContainer.append(messageElement)
+    messageContainer.append(senderElement);
+    messageContainer.append(messageElement);
     messageContainer.append(infoElement);
     messageFullContainer.append(messageContainer);
     container.append(messageFullContainer);
@@ -143,11 +155,14 @@ function AppendUser(){
   
   // To append all the useres one time
   this.renderAll = ()=>{
+    document.querySelectorAll('.user').forEach(e=>{
+      e.remove()
+    })
     Object.keys(users).forEach(e =>{
         this.appendFoo({idKey: e, name: users[e].name, info: users[e].info})
     })
   }
-  
+   
   // To remove a user, Tekes id
   this.removeUser = (e) => {
     document.getElementById(`user-${e}`).remove()

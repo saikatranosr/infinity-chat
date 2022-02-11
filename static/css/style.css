@@ -95,15 +95,16 @@ nav{
   background: var(--light-gray);
 }
 .user{
-  border: 0.5px solid lightgray;
   padding: 2% 4%;
   transition: .5s;
+  font-weight: bold;
 }
 .user:hover{
   background: var(--light-gray);
 }
 .info{
   color: var(--theme-color);
+  font-weight: normal;
 }
 .userName{
   font-size: 1.2rem;
@@ -325,6 +326,8 @@ nav{
   }
   .user{
     padding: 4px;
+    margin: 0 4px;
+    min-width: 50px;
   }
   .chats{
     grid-row: 3;

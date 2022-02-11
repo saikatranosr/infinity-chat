@@ -2,9 +2,10 @@ function connectIO(name){
 const socket = io();
 
 socket.emit('new-user-joined', name);
-
-// Welcome a user when welcome him/her and takes the users object and show.
+loadingScreen.style.display = 'flex';
+// Welcome a user when welcome him/her and takes the users object and shand
 socket.on('welcome', e => {
+  loadingScreen.style.display = 'none';
     users = e.obj;
     delete users[e.myId]
     myId = e.myId;
@@ -18,7 +19,7 @@ form.addEventListener('submit', (e) => {
     const message = messageInput.value.trim();
     if (message.length !== 0){
       let msgId = `msg-${myId}-${Date.now()}`;
-  	  appendMessage.message('', message, 'right', msgId);
+  	  appendMessage.message('', message, 'right', msgId, myId);
   	  socket.emit('send', message, msgId);
   	  messageInput.value = '';
     } else{
@@ -39,7 +40,7 @@ socket.on('sent', (msgId)=>{
 
 // If a new user joins, receive his/her name from the server
 socket.on('user-joined', e =>{
-    appendMessage.message('', `${e.name} joined the chat`, 'center')
+    appendMessage.message('', `${e.name} joined the chat`, 'center', '')
     users[e.id] = {}
     users[e.id].name = e.name;
     users[e.id].info = ['online'];
@@ -49,19 +50,20 @@ socket.on('user-joined', e =>{
 
 // If server sends a message, receive it
 socket.on('receive', data =>{
-    appendMessage.message(data.name, data.message, 'left', data.id)
+    appendMessage.message(data.name, data.message, 'left', data.id, data.sender)
 });
 
 // If a user leaves the chat, append the info to the container
 socket.on('left', id =>{
-    appendMessage('', `${users[id].name} left the chat`, 'center')
+    appendMessage('', `${users[id].name} left the chat`, 'center', '');
     delete users[id];
     appendUser.removeUser(id)
 });
 
 // If someone disconnected from server let him know
 socket.on('disconnect', function(){
-    alert("You lost connection!, reload to connect again")
+    socket.emit('new-user-joined', name);
+    appendUser.renderAll()
 });
 
 socket.on('alert', e => {

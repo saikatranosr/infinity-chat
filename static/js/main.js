@@ -194,3 +194,20 @@ p2 = new Promise((resolve, reject)=>{
 p2.then((e)=>{
   connectIO(name);
 })
+
+// Service Workers
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', ()=>{
+    navigator.serviceWorker.register('/sw.js').then((e)=>{
+      console.log("serviceWorker registration successful", e)
+    })
+    .catch(e=>{
+      console.warn("Service worker registration failed", e)
+    })
+  })
+}
+else{
+  console.warn("serviceWorker is not supported on your browser :)")
+}
+
+Push.create("Hello World");
