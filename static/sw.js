@@ -21,7 +21,7 @@ this.addEventListener('install', function(event) {
 });
 
 this.addEventListener('fetch', function(event) {
-  if (!navigator.online){
+  if (!navigator.onLine){
     event.respondWith(
       caches.match(event.request)
         .then(function(response) {
@@ -34,4 +34,15 @@ this.addEventListener('fetch', function(event) {
       )
     );
   }
+});
+
+self.addEventListener('notificationclick', e =>{
+  e.notification.close()
+})
+
+self.addEventListener('notificationclose', function(e) {
+  var notification = e.notification;
+  var primaryKey = notification.data.primaryKey;
+
+  console.log('Closed notification: ' + primaryKey);
 });

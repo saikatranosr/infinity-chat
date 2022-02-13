@@ -40,7 +40,13 @@ socket.on('sent', (msgId)=>{
 
 // If a new user joins, receive his/her name from the server
 socket.on('user-joined', e =>{
-    appendMessage.message('', `${e.name} joined the chat`, 'center', '')
+    appendMessage.message('', `${e.name} joined the chat`, 'center', '');
+    if(document.visibilityState == 'hidden'){
+    notification("Infinity Chat", {
+      body: `${e.name} joined the chat`,
+      icon: "/media/logo.png",
+    })
+  }
     users[e.id] = {}
     users[e.id].name = e.name;
     users[e.id].info = ['online'];
@@ -50,12 +56,24 @@ socket.on('user-joined', e =>{
 
 // If server sends a message, receive it
 socket.on('receive', data =>{
-    appendMessage.message(data.name, data.message, 'left', data.id, data.sender)
-});
+  appendMessage.message(data.name, data.message, 'left', data.id, data.sender)
+  if(document.visibilityState == 'hidden'){
+    notification(data.name, {
+      body: data.message,
+      icon: "/media/logo.png",
+    })
+  }
+})
 
 // If a user leaves the chat, append the info to the container
 socket.on('left', id =>{
-    appendMessage('', `${users[id].name} left the chat`, 'center', '');
+    appendMessage.message('', `${users[id].name} left the chat`, 'center', '');
+    if(document.visibilityState == 'hidden'){
+    notification("Infinity Chat", {
+      body: `${users[id].name} left the chat`,
+      icon: "/media/logo.png",
+    })
+  }
     delete users[id];
     appendUser.removeUser(id)
 });

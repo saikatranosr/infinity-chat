@@ -32,7 +32,9 @@ container.oncontextmenu = function(event) {
 
 // If an user clicks on the goToEnd button
 goToEndBtn.addEventListener('click', ()=> {
-  container.scrollTop = container.scrollHeight;
+  // container.scrollTop = container.scrollHeight;
+  container.scrollTo({top: container.scrollHeight, behaviour: 'smooth'})
+  // scrollToSmoothly(container, container.scrollHeight, 1000, container.scrollTop / (container.scrollHeight - container.clientHeight))
   console.log(messageInput.activeElement)
   if (document.activeElement == messageInput){
     messageInput.focus()
@@ -76,8 +78,24 @@ container.addEventListener('scroll', (e)=>{
     goToEnd.style.display = 'flex';
   }
 });
-    
+
 // More menu
+let color_arr = [];
+for(let i=0; i < Object.keys(colors).length; i++){
+color_arr.push(
+  {
+    icon: "done",
+    text: colors[Object.keys(colors)[i]][0],
+    doThat: ()=>{
+      theme.color(Object.keys(colors)[i]);
+      settings.color = Object.keys(colors)[i];
+      menu.hideAll()
+      saveSettings()
+  }
+}
+)
+}
+console.log(color_arr)
 moreMenu.addEventListener('click', () => {
   if (menu.isActive()){
     menu.hideAll()
@@ -138,30 +156,10 @@ moreMenu.addEventListener('click', () => {
       icon: 'palette',
       text: 'Color',
       doThat: ()=>{
-        menu.show(moreMenu, [{
-          icon: (settings.color == 'aqua-blue') ? "done" : 'check_box_outline_blank',
-          text: "Aqua Blue",
-          doThat: ()=>{
-            theme.color('aqua-blue');
-            settings.color = 'aqua-blue';
-            menu.hideAll()
-            saveSettings()
-          }
-        },
-        {
-          icon: (settings.color == 'tomato-red') ? "done" : 'check_box_outline_blank',
-          text: "Tomato Hotpink",
-          id: "tomato-hotpink",
-          doThat: ()=>{
-            theme.color('tomato-red');
-            settings.color = 'tomato-red';
-            saveSettings()
-            menu.hideAll();
-          }
-        }])
+        menu.show(moreMenu, color_arr)
       }
-    }] )
-  }
+  }])
+}
 }); // End of Event listener
 
 // Enter users name
@@ -200,6 +198,7 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('/sw.js').then((e)=>{
       console.log("serviceWorker registration successful", e)
+      sw = e;
     })
     .catch(e=>{
       console.warn("Service worker registration failed", e)
@@ -209,5 +208,15 @@ if ('serviceWorker' in navigator) {
 else{
   console.warn("serviceWorker is not supported on your browser :)")
 }
-
-Push.create("Hello World");
+function notification(title, options){
+  if (Notification.permission=='default'){
+    Notification.requestPermission(state=>{
+      if (state=='granted'){
+        sw.showNotification(title, options)
+      }
+    });
+  }
+  else if (Notification.permission == 'granted'){
+    sw.showNotification(title, options)
+  }
+}

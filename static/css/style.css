@@ -115,13 +115,18 @@ nav{
   transition: .5s;
 }
 .message-container {
-  padding: 8px 10px 0 10px;
+  position: relative;
+  opacity: 0;
+  padding-top: 10px;
+  padding-left: 10px;
+  padding-bottom: 10px;
+  padding-right: 10px;
   border-radius: 1rem;
   font-family: Arial, sans-serif;
   max-width: 80%;
   word-wrap: break-word;
-  transition: .5s;
-}
+  transition: 1s;
+  overflow: hidden;
 }
 .left {
   justify-content: flex-start
@@ -148,21 +153,27 @@ nav{
   justify-content: center;
 }
 .message-info{
-  font-size: 0.5rem;
-  float: right;
-  padding: 3px 0 5px 0;
-  display: flex;
+  position: absolute;
+  color: var(--light-gray);
+  font-size: 0.7rem;
+  padding: 5px 0;
+  display: flex; 
+  bottom: -20px;
+  right: 10px;
   align-items: center;
   justify-content: center;
+  transition: .5s;
 }
+
 .message-read, .time-stamp{
   margin: 0 1px;
 }
 .message-read{
-  font-size: 0.7rem;
+  font-size: 1.2em;
 }
 .right .message-info{
   color: lightgray;
+  
 }
 .left .message-info{
   color: darkgray;
@@ -376,4 +387,13 @@ nav{
         -ms-user-select: none; /* Internet Explorer/Edge */
             user-select: none; /* Non-prefixed version, currently
                                   supported by Chrome, Edge, Opera and Firefox */
+}
+
+@keyframes heartbeat{
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0.9);
+  }
 }

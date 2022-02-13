@@ -20,7 +20,8 @@ let settings = {
 
 let colors = {
   'aqua-blue': ["Aqua Blue","#3978c5","linear-gradient(-20deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%)", "hue-rotate(0deg)"],
-  'tomato-red': ["Tomato Hotpink", "tomato", "linear-gradient(-20deg, tomato 12%, hotpink 100%)", "hue-rotate(130deg)"]
+  'tomato-red': ["Tomato Hotpink", "tomato", "linear-gradient(-20deg, tomato 12%, hotpink 100%)", "hue-rotate(130deg)"],
+  'gray': ["Black & White", "gray", "linear-gradient(-20deg, darkgray 12%, lightgray 100%)", "saturation(0)"]
 }
 
 // Audio that will play on receiving messages
@@ -61,6 +62,7 @@ function AppendMessage(){
     timeElement.classList.add('time-stamp');
     readElement.classList.add('message-read');
     readElement.classList.add('material-icons');
+    
     infoElement.append(timeElement);
     infoElement.append(readElement);
     const nodes = document.querySelectorAll('.sender-name')
@@ -80,12 +82,17 @@ function AppendMessage(){
     for (let i=0; i<msgArr.length && emoji; i++){
       // console.log(message[i])
       emoji = /\p{Extended_Pictographic}/u.test(msgArr[i]);
-      // alert(/\p{Extended_Pictographic}/u.test(message));
-      // alert(message)
-      // alert('tt' + emoji)
       }
-    // alert(emoji)
-    if(emoji){messageElement.style.fontSize = '2rem'; }
+    if(emoji){
+      messageElement.style.fontSize = '2rem';
+      messageContainer.style.background = 'var(--bg)';
+    }
+    else if(message == '❤️'){
+      messageElement.style.fontSize = '5rem';
+      messageContainer.style.background = 'var(--bg)';
+      messageElement.style.animation = 'heartbeat 1s alternate infinite'
+      // messageElement.style.animation =  
+    }
     timeElement.innerText = timeStamp;
     readElement.innerText = 'send'; // done, done_all
     
@@ -98,12 +105,20 @@ function AppendMessage(){
     messageContainer.append(infoElement);
     messageFullContainer.append(messageContainer);
     container.append(messageFullContainer);
+    messageContainer.style.opacity = '1';
     
+    messageContainer.addEventListener('mouseup', () => {
+    showMsgInfo(messageContainer)
+    })
+    showMsgInfo(messageContainer);
     // Scrolling properities
     if(position =='left' || position =='center'){
         // audio.play();
         if (scroled_val){
-         	container.scrollTop = container.scrollHeight;
+         	// container.scrollTop = container.scrollHeight;
+         	container.scrollTo({top: container.scrollHeight, behaviour: 'smooth'})
+         	// scrollToSmoothly(container, container.scrollHeight, 1000)
+
         }
         else{
           tempMsg+=1;
@@ -270,4 +285,19 @@ function Theme(){
 
 function saveSettings(e){
   localStorage.setItem('settings', JSON.stringify(settings))
+}
+
+function showMsgInfo(e){
+  console.log(e);
+  const allMsgs = document.querySelectorAll('.message-container');
+  Array.from(allMsgs).forEach(e => {
+    e.style.paddingBottom = '10px';
+    e.style.minWidth = '0';
+    e.querySelector('.message-info').style.bottom = '-20px';
+  })
+  const elem = e.querySelector('.message-info');
+  console.log(elem);
+  e.style.paddingBottom = '20px';
+  e.style.minWidth = '50px';
+  elem.style.bottom = '0';
 }
