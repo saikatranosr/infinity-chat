@@ -9,7 +9,7 @@ const io = new Server(server);
 app.use(express.static(__dirname +'/static'));
 app.set('view engine', 'pug');
 app.set('views', path.join(__dirname, 'views'));
- 
+const port = process.env.PORT || 3000
 // MY VARIABLES
 let users = {};
 
@@ -76,6 +76,6 @@ io.on('connection', socket =>{
 });
 
 // Starting server
-server.listen(3000, () => {
-  console.log('listening on *:3000');
+server.listen(port, () => {
+  console.log('listening on *: '+port);
 });
