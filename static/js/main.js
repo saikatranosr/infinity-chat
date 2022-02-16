@@ -3,6 +3,8 @@ appendMessage = new AppendMessage()
 menu = new Menu()
 theme = new Theme()
 
+//
+appendMessage.message("", "❤️", 'left', 'none', 'none')
 // Getting settings
 _settings = JSON.parse(localStorage.getItem('settings'));
 if (_settings != null){
@@ -198,6 +200,11 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('/sw.js').then((e)=>{
       console.log("serviceWorker registration successful", e)
+      e.update().then(e=>{
+        console.log("serviceWorker updated successfully")
+      }).catch(e=>{
+        console.log("serviceWorker update failed")
+      })
       sw = e;
     })
     .catch(e=>{
@@ -207,16 +214,4 @@ if ('serviceWorker' in navigator) {
 }
 else{
   console.warn("serviceWorker is not supported on your browser :)")
-}
-function notification(title, options){
-  if (Notification.permission=='default'){
-    Notification.requestPermission(state=>{
-      if (state=='granted'){
-        sw.showNotification(title, options)
-      }
-    });
-  }
-  else if (Notification.permission == 'granted'){
-    sw.showNotification(title, options)
-  }
 }

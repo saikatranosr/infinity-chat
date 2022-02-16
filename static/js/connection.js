@@ -58,10 +58,7 @@ socket.on('user-joined', e =>{
 socket.on('receive', data =>{
   appendMessage.message(data.name, data.message, 'left', data.id, data.sender)
   if(document.visibilityState == 'hidden'){
-    notification(data.name, {
-      body: data.message,
-      icon: "/media/logo.png",
-    })
+    notification(data.name, data.message)
   }
 })
 
@@ -109,6 +106,10 @@ socket.on('user-offline', e =>{
 document.addEventListener("visibilitychange", function() {
   if (document.visibilityState == 'visible') {
     socket.emit('online');
+    sw.getNotifications().then(e =>{
+    for (let i = 0; i < e.length; i++) {
+        e[i].close()
+    }})
   }
   else {
     socket.emit('offline');

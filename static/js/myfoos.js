@@ -67,7 +67,7 @@ function AppendMessage(){
     infoElement.append(readElement);
     const nodes = document.querySelectorAll('.sender-name')
     if(document.querySelector('.sender-name') != null){
-      console.log(nodes[nodes.length -1])
+      // console.log(nodes[nodes.length -1])
       if (nodes[nodes.length -1].id != senderElement.id){
         senderElement.innerText = sender;
       } else {
@@ -186,7 +186,7 @@ function AppendUser(){
   this.typing = (e) => {
      let elem = document.querySelector(`#user-${e} .info`);
      elem.innerText = "typing...";
-     console.log(e+' is typing');
+    // console.log(e+' is typing');
      typeTimeout = setTimeout(()=> {
          elem.innerText = "online";
      }, 1000);
@@ -288,7 +288,7 @@ function saveSettings(e){
 }
 
 function showMsgInfo(e){
-  console.log(e);
+  // console.log(e);
   const allMsgs = document.querySelectorAll('.message-container');
   Array.from(allMsgs).forEach(e => {
     e.style.paddingBottom = '10px';
@@ -296,8 +296,45 @@ function showMsgInfo(e){
     e.querySelector('.message-info').style.bottom = '-20px';
   })
   const elem = e.querySelector('.message-info');
-  console.log(elem);
+  // console.log(elem);
   e.style.paddingBottom = '20px';
   e.style.minWidth = '50px';
   elem.style.bottom = '0';
+}
+
+function notification(title, body){
+  let tempNoti = '';
+  let notiSwhown = false;
+  if ('serviceWorker' in navigator) {
+    if (Notification.permission=='default'){
+      Notification.requestPermission(state=>{
+        if (state=='granted'){
+          notiSwhown = true;
+        }
+      });
+    }
+    else if (Notification.permission == 'granted'){
+      notiSwhown = true;
+    }
+  } else {
+    console.warn("serviceWorker is not supported on your browser :)")
+  }
+  if (notiSwhown){
+    sw.getNotifications({tag: 'chatroom'}).then(n =>{
+      if (n.length != 0){
+        console.log('*****')
+        tempNoti = n[0].body + '\n'
+      }
+    })
+    console.log("Temp: "+tempNoti)
+    let newBody = tempNoti + title + ": " + body;
+    console.log("Full: "+newBody);
+    sw.showNotification("New Message", {
+      body: newBody,
+      icon: '/media/logo.png',
+      badge: '/media/logo-w.png',
+      renotify: true,
+      tag: 'chatroom'
+    })
+  }
 }

@@ -9,7 +9,6 @@ var urlsToCache = [
   'socket.io/socket.io.js',
   'https://fonts.googleapis.com/icon?family=Material+Icons'
 ];
-
 this.addEventListener('install', function(event) {
   event.waitUntil(
     caches.open(CACHE_NAME)
@@ -21,28 +20,24 @@ this.addEventListener('install', function(event) {
 });
 
 this.addEventListener('fetch', function(event) {
-  if (!navigator.onLine){
-    event.respondWith(
-      caches.match(event.request)
-        .then(function(response) {
-          // Cache hit - return response
-          if (response) {
-            return response;
-          }
-          return fetch(event.request);
+  event.respondWith(
+    caches.match(event.request)
+      .then(function(response) {
+        // Cache hit - return response
+        if (response) {
+          return response;
         }
-      )
-    );
-  }
+        return fetch(event.request);
+      }
+    )
+  );
 });
 
 self.addEventListener('notificationclick', e =>{
+  console.log('Clicked on notification');
   e.notification.close()
 })
 
 self.addEventListener('notificationclose', function(e) {
-  var notification = e.notification;
-  var primaryKey = notification.data.primaryKey;
-
-  console.log('Closed notification: ' + primaryKey);
+  console.log('Closed notification:');
 });
