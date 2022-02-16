@@ -42,10 +42,7 @@ socket.on('sent', (msgId)=>{
 socket.on('user-joined', e =>{
     appendMessage.message('', `${e.name} joined the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("Infinity Chat", {
-      body: `${e.name} joined the chat`,
-      icon: "/media/logo.png",
-    })
+    notification("Infinity Chat", `${e.name} joined the chat`)
   }
     users[e.id] = {}
     users[e.id].name = e.name;
@@ -66,10 +63,7 @@ socket.on('receive', data =>{
 socket.on('left', id =>{
     appendMessage.message('', `${users[id].name} left the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("Infinity Chat", {
-      body: `${users[id].name} left the chat`,
-      icon: "/media/logo.png",
-    })
+    notification("Infinity Chat", `${users[id].name} left the chat`)
   }
     delete users[id];
     appendUser.removeUser(id)

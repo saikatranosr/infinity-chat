@@ -301,9 +301,8 @@ function showMsgInfo(e){
   e.style.minWidth = '50px';
   elem.style.bottom = '0';
 }
-
+let tempNoti;
 function notification(title, body){
-  let tempNoti = '';
   let notiSwhown = false;
   if ('serviceWorker' in navigator) {
     if (Notification.permission=='default'){
@@ -322,10 +321,10 @@ function notification(title, body){
   if (notiSwhown){
     sw.getNotifications({tag: 'chatroom'}).then(n =>{
       if (n.length != 0){
-        console.log('*****')
-        tempNoti = n[0].body + '\n'
+        console.log('*****'+ n[0].body + '\n')
+        tempNoti = n[0].body + '\n';
       }
-    })
+    else{ tempNoti = "";}
     console.log("Temp: "+tempNoti)
     let newBody = tempNoti + title + ": " + body;
     console.log("Full: "+newBody);
@@ -335,6 +334,7 @@ function notification(title, body){
       badge: '/media/logo-w.png',
       renotify: true,
       tag: 'chatroom'
+    })
     })
   }
 }
