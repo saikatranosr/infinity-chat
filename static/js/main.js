@@ -3,7 +3,8 @@ appendMessage = new AppendMessage()
 menu = new Menu()
 theme = new Theme()
 
-//
+// Hiding Menu on click on anywhere
+container.addEventListener('click', ()=> menu.hideAll())
 appendMessage.message("", "❤️", 'left', 'none', 'none')
 // Getting settings
 _settings = JSON.parse(localStorage.getItem('settings'));
@@ -26,11 +27,11 @@ window.addEventListener('resize', ()=>{
 });
 
 // Disable Right Click
-container.oncontextmenu = function(event) {
-     event.preventDefault();
-     event.stopPropagation();
-     return false;
-};
+// container.oncontextmenu = function(event) {
+//     event.preventDefault();
+//     event.stopPropagation();
+//     return false;
+// };
 
 // If an user clicks on the goToEnd button
 goToEndBtn.addEventListener('click', ()=> {
@@ -82,6 +83,7 @@ container.addEventListener('scroll', (e)=>{
 });
 
 // More menu
+//Adding array of objects of colors in the settings
 let color_arr = [];
 for(let i=0; i < Object.keys(colors).length; i++){
 color_arr.push(
@@ -97,19 +99,14 @@ color_arr.push(
 }
 )
 }
-console.log(color_arr)
+//Listening click event on more menunand showing the menu
 moreMenu.addEventListener('click', () => {
-  if (menu.isActive()){
-    menu.hideAll()
-  }
+  if (menu.isActive()) menu.hideAll();
   else {
     menu.show(moreMenu, [{
       icon: 'refresh',
-      id: 'reload_page',
       text: "Reload",
-      doThat: ()=>{
-        document.location.reload(true)
-      }
+      doThat: () => document.location.reload(true)
     },{
       icon: 'brightness_4',
       text: 'Theme',

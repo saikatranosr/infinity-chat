@@ -14,7 +14,7 @@ let name;
 let users; // All friends in the chatroom
 tempMsg = 0 // Unread messages
 let settings = {
-  theme: 'dark',
+  theme: 'system',
   color: 'aqua-blue'
 }
 
@@ -109,6 +109,20 @@ function AppendMessage(){
     
     messageContainer.addEventListener('mouseup', () => {
     showMsgInfo(messageContainer)
+    })
+    messageContainer.addEventListener('contextmenu',()=> {
+      if (menu.isActive()) menu.hideAll();
+      else{
+        menu.show(messageContainer, [{
+          icon: 'content_copy',
+          text: "Copy",
+          doThat: () => navigator.clipboard.writeText(messageElement.innerText)
+        },{
+          icon: 'delete',
+          text: "Delete",
+          doThat: () => confirm("Delete message?")
+        }])
+      }
     })
     showMsgInfo(messageContainer);
     // Scrolling properities
@@ -205,13 +219,13 @@ function AppendUser(){
 function Menu(){
   this.show = (target, data)=>{
     this.hideAll()
-    elem = document.createElement('div');
+    const elem = document.createElement('div');
     elem.classList.add('menu');
     elem.classList.add('noselect');
     let innerElem = [];
     for (let i=0; i<data.length; i++){
       innerElem[i] = document.createElement('div');
-      _tmp_icon = document.createElement('span');
+      const _tmp_icon = document.createElement('span');
       _tmp_icon.classList.add('material-icons');
       _tmp_icon.innerText = data[i].icon;
       _tmp_text = document.createElement('span');
@@ -222,18 +236,19 @@ function Menu(){
       elem.append(innerElem[i]);
     }
     document.body.append(elem);
-    if(window.innerWidth - target.offsetLeft < elem.clientWidth - 10){
+    if(container.clientWidth - (target.offsetLeft + target.clientWidth) < elem.clientWidth){
       elem.style.left = (target.offsetLeft - elem.clientWidth) + 'px';
     }
     else {
-      elem.style.left = target.offsetLeft + 'px';
+      elem.style.left = (target.offsetLeft + target.clientWidth) + 'px';
     }
-    if(window.innerHeight - target.offsetTop < elem.clientHeight - 10){
-      elem.style.top = (target.offsetTop - elem.clientWidth) + 'px';
+    if(container.clientHeight - (target.offsetTop - container.scrollTop + target.clientHeight) < elem.clientHeight){
+      elem.style.top = (target.offsetTop - container.scrollTop - elem.clientHeight) + 'px';
     }
     else {
-      elem.style.top = target.offsetTop + 'px';
+      elem.style.top = (target.offsetTop - container.scrollTop) + 'px';
     }
+    
   }
   this.hideAll = ()=>{
     document.querySelectorAll('.menu').forEach((e)=>{
@@ -287,6 +302,7 @@ function saveSettings(e){
   localStorage.setItem('settings', JSON.stringify(settings))
 }
 
+// Click on a messge to show its info and time
 function showMsgInfo(e){
   // console.log(e);
   const allMsgs = document.querySelectorAll('.message-container');
@@ -301,8 +317,10 @@ function showMsgInfo(e){
   e.style.minWidth = '50px';
   elem.style.bottom = '0';
 }
-let tempNoti;
+
+// Notification stuffs
 function notification(title, body){
+  let tempNoti;
   let notiSwhown = false;
   if ('serviceWorker' in navigator) {
     if (Notification.permission=='default'){
