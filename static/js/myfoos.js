@@ -110,19 +110,19 @@ function AppendMessage(){
     messageContainer.addEventListener('mouseup', () => {
     showMsgInfo(messageContainer)
     })
+    console.log(msgId)
     messageContainer.addEventListener('contextmenu',()=> {
-      if (menu.isActive()) menu.hideAll();
-      else{
-        menu.show(messageContainer, [{
-          icon: 'content_copy',
-          text: "Copy",
-          doThat: () => navigator.clipboard.writeText(messageElement.innerText)
-        },{
-          icon: 'delete',
-          text: "Delete",
-          doThat: () => confirm("Delete message?")
-        }])
-      }
+      if (menu.isActive('msg')) menu.hideWithId('msg');
+ 
+      menu.show(messageContainer, 'msg', [{
+        icon: 'content_copy',
+        text: "Copy",
+        doThat: () => navigator.clipboard.writeText(messageElement.innerText)
+      },{
+        icon: 'delete',
+        text: "Delete",
+        doThat: () => this.deleteForMe(messageFullContainer)
+      }])
     })
     showMsgInfo(messageContainer);
     // Scrolling properities
@@ -145,12 +145,16 @@ function AppendMessage(){
     	container.scrollTop = container.scrollHeight
     }
   }
+  // Updating Sent, Delivery and Read receipts
   this.info = (id, info)=>{
-    const elem = document.querySelector(`#${id} .message-read`);
-    elem.innerText = info;
-    
-    
+    document.querySelector(`#${id} .message-read`).innerText = info
   }
+  
+  // Delete message
+  this.deleteForMe = (el) => {
+    el.remove()
+  }
+  
 }
 
 // Append Users names and their status
@@ -217,10 +221,10 @@ function AppendUser(){
 } // End of Function
 
 function Menu(){
-  this.show = (target, data)=>{
-    this.hideAll()
+  this.show = (target, id, data)=>{
     const elem = document.createElement('div');
     elem.classList.add('menu');
+    elem.classList.add(`menu-${id}`);
     elem.classList.add('noselect');
     let innerElem = [];
     for (let i=0; i<data.length; i++){
@@ -230,7 +234,7 @@ function Menu(){
       _tmp_icon.innerText = data[i].icon;
       _tmp_text = document.createElement('span');
       _tmp_text.innerText = data[i].text;
-      innerElem[i].onclick = data[i].doThat;
+      innerElem[i].onclick = () =>{ data[i].doThat(); menu.hide(elem) }
       innerElem[i].append(_tmp_icon);
       innerElem[i].append(_tmp_text);
       elem.append(innerElem[i]);
@@ -250,15 +254,39 @@ function Menu(){
     }
     
   }
-  this.hideAll = ()=>{
+  // Hide all Menues
+  this.hideAll = () => {
     document.querySelectorAll('.menu').forEach((e)=>{
       e.remove()
     });
   }
   
-  this.isActive = ()=>{
-    return (document.querySelectorAll('.menu').length != 0)
+  // Hide an particular Menu
+  this.hide = (el) => el.remove()
+  
+  this.hideWithId = (id) => {
+    document.querySelectorAll(`.menu-${id}`).forEach(e => e.remove() )
   }
+  // Check if an Menu is active
+  this.isActive = (id)=>{
+    return (document.querySelectorAll(`.menu-${id}`).length != 0)
+  }
+}
+
+function OptionModal(){
+  
+}
+
+function InfoModal(){
+  
+}
+
+function InputModal(){
+  
+}
+
+function Toast(){
+  
 }
 
 function Theme(){

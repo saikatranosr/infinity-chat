@@ -29,11 +29,12 @@ head
   p Loading...
   
 #myPrompt.over.noselect
-  img(src='/media/logo.svg' alt='')
-  form.content#nameForm
-    label(for='nameInp') Enter your name
-    input.inp#nameInp(type='text' autocomplete='off')
-    button.btn.btn-1#nameBtn(type='submit') OK
+  .promptContainer
+    img(src='/media/logo.svg' alt='')
+    form.content#nameForm
+      label(for='nameInp') Join as...
+      input.inp#nameInp(type='text' autocomplete='off')
+      button.btn.btn-3#nameBtn(type='submit') Join
 
 script(src="/socket.io/socket.io.js")
 script(src='/js/myfoos.js')

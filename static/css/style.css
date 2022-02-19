@@ -5,6 +5,7 @@
 :root{
   --theme-color: #3978c5;
   --theme-dark: rgb(53,91,136);
+  --theme-light: rgb(174,212,255);
   --theme-gradiant: linear-gradient(-20deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%);
   --gray: lightgray;
   --light-gray: rgb(240,240,240);
@@ -69,7 +70,7 @@ nav{
   flex-wrap: nowrap;
   background: var(--bg);
   transition: .5s;
-  /* border: 1px solid tomato; */
+   /*border: 1px solid tomato; */
 }
 
 /*Child Elements*/
@@ -204,14 +205,15 @@ nav{
 }
 
 .btn{
-  height: 30px;
-  width: 50px;
+  padding: 10px;
   border: none;
-  border-radius: 4px;
+  border-radius: 1rem;
   color: white;
   margin: 4px;
   transition: 0.5s;
   transition: .5s;
+  text-transform: uppercase;
+  font-weight: bold;
 }
 .btn-1{
   background: var(--theme-color);
@@ -219,18 +221,30 @@ nav{
 .btn-2{
   background: var(--light-gray);
 }
-.btn-1:active{
+.btn-3{
+  color: var(--theme-color);
+  background: inherit;
+}
+.btn:hover{
+  box-shadow: var(--gray) 1px 1px 5px;
+}
+.btn-1:hover{
   background: var(--theme-dark);
 }
-.btn-2:active{
+.btn-2:hover{
   background: var(--gray);
+}
+.btn-3:hover {
+  background: var(--theme-light);
 }
 
 .inp{
-  height: 30px;
+  height: 41px;
   width: 200px;
   border: none;
-  outline: 1px solid var(--theme-color);
+  border: 1px solid var(--theme-color);
+  background: var(--bg);
+  color: var(--color);
   border-radius: 0.5rem;
   font-size: 1.1rem;
   margin: 4px 0;
@@ -241,37 +255,48 @@ nav{
 }
 
 #sendBtn {
+  display: flex;
   border: none;
-  background: none;
-  color: var(--theme-color);
+  background: var(--theme-color);
+  color: white;
   font-weight: bold;
   margin-left: 5px;
-  width: 40px;
+  width: 45px;
   cursor: pointer;
-  border-radius: 6px;
-  height: 40px;
+  border-radius: 2rem;
+  height: 45px;
   transition: .5s;
+  align-items: center;
+  justify-content: center;
 }
 .over{
   font-family: Arial,Sans-Serif;
   position: absolute;
   top: 0;
   left: 0;
-  background: #ffffffce;
+  background: var(--semi-tp);
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
   display: flex;
   align-items: center;
   justify-content: center;
-  flex-direction: column;
-  background: var(--bg);
   color: var(--color);
   transition: .5s;
 }
+.promptContainer {
+  width: 80vw;
+  max-width: 500px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--light-gray);
+  box-shadow: var(--gray) 0 0 10px 3px;
+}
 #loadingScreen{
-  z-index: 2;
-  background: var(--bg);
+  background: transparent;
   transition: .5s;
 }
 .over img{

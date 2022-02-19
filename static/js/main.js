@@ -4,8 +4,8 @@ menu = new Menu()
 theme = new Theme()
 
 // Hiding Menu on click on anywhere
-container.addEventListener('click', ()=> menu.hideAll())
-appendMessage.message("", "❤️", 'left', 'none', 'none')
+container.addEventListener('click', ()=> menu.hideWithId('msg'))
+appendMessage.message("", "❤️", 'left', 'none', 'none');
 // Getting settings
 _settings = JSON.parse(localStorage.getItem('settings'));
 if (_settings != null){
@@ -49,14 +49,10 @@ messageInput.addEventListener('input', ()=>{
   if(messageInput.scrollHeight < 100){
     let newHeight = messageInput.scrollHeight;
     messageInput.style.height = (newHeight - 12) + 'px';
-    if (mediaQuery.matches){
-      mainContainer.style.gridTemplateRows = `40px 50px 1fr ${11 + newHeight}px`;
-    } else {
-      mainContainer.style.gridTemplateRows = `40px 1fr ${11 + newHeight}px`;
-    }
-    if(scrolled(container)){
-      container.scrollTop = container.scrollHeight;
-    }
+    if (mediaQuery.matches) mainContainer.style.gridTemplateRows = `40px 50px 1fr ${13 + newHeight}px`;
+    else mainContainer.style.gridTemplateRows = `40px 1fr ${13 + newHeight}px`;
+    
+    if(scrolled(container)) container.scrollTop = container.scrollHeight;
   }
 });
 
@@ -101,9 +97,9 @@ color_arr.push(
 }
 //Listening click event on more menunand showing the menu
 moreMenu.addEventListener('click', () => {
-  if (menu.isActive()) menu.hideAll();
+  if (menu.isActive('more-menu')) menu.hideWithId('more-menu');
   else {
-    menu.show(moreMenu, [{
+    menu.show(moreMenu, 'more-menu', [{
       icon: 'refresh',
       text: "Reload",
       doThat: () => document.location.reload(true)
@@ -111,14 +107,12 @@ moreMenu.addEventListener('click', () => {
       icon: 'brightness_4',
       text: 'Theme',
       doThat: ()=>{
-        menu.hideAll()
-        menu.show(moreMenu, [{
+        menu.show(moreMenu,'more-menu' , [{
           icon: (settings.theme == 'light') ? "done" : 'check_box_outline_blank',
           text: "Light",
           doThat: ()=>{
             theme.theme('light');
             settings.theme = 'light';
-            menu.hideAll();
           }
         },
         {
@@ -128,7 +122,6 @@ moreMenu.addEventListener('click', () => {
             theme.theme('dark');
             settings.theme = 'dark';
             saveSettings()
-            menu.hideAll();
           }},
         {
           icon: (settings.theme == 'system') ? "done" : 'check_box_outline_blank',
@@ -137,7 +130,6 @@ moreMenu.addEventListener('click', () => {
             theme.theme('system');
             settings.theme = 'system';
             saveSettings();
-            menu.hideAll();
           }},
         {
           icon: (settings.theme == 'auto') ? "done" : 'check_box_outline_blank',
@@ -146,7 +138,6 @@ moreMenu.addEventListener('click', () => {
             theme.theme('auto');
             saveSettings()
             settings.theme = 'auto';
-            menu.hideAll();
           }
         }])
       }
@@ -155,7 +146,7 @@ moreMenu.addEventListener('click', () => {
       icon: 'palette',
       text: 'Color',
       doThat: ()=>{
-        menu.show(moreMenu, color_arr)
+        menu.show(moreMenu, 'more-menu', color_arr)
       }
   }])
 }
@@ -171,7 +162,7 @@ p = new Promise((resolve, reject) => {
 })
 
 // Get name from the user
-p2 = new Promise((resolve, reject)=>{
+p2 = new Promise((resolve, reject) => {
   p.then((e)=>{
     nameForm.addEventListener('submit', (e) => {
       e.preventDefault();
@@ -197,11 +188,6 @@ if ('serviceWorker' in navigator) {
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('/sw.js').then((e)=>{
       console.log("serviceWorker registration successful", e)
-      e.update().then(e=>{
-        console.log("serviceWorker updated successfully")
-      }).catch(e=>{
-        console.log("serviceWorker update failed")
-      })
       sw = e;
     })
     .catch(e=>{
@@ -212,3 +198,8 @@ if ('serviceWorker' in navigator) {
 else{
   console.warn("serviceWorker is not supported on your browser :)")
 }
+
+navigator.serviceWorker.addEventListener('message', function(event) {
+  console.log("Got reply from service worker: " + event.data);
+  window.focus()
+});

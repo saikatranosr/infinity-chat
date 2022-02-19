@@ -1,4 +1,4 @@
-var CACHE_NAME = 'my-site-cache-v7';
+var CACHE_NAME = 'my-site-cache-v1';
 var urlsToCache = [
   '/',
   '/css/style.css',
@@ -6,6 +6,8 @@ var urlsToCache = [
   '/js/connection.js',
   '/js/myfoos.js',
   '/media/logo.svg',
+  '/media/logo.png',
+  '/media/logo-w.png',
   'socket.io/socket.io.js',
   'https://fonts.googleapis.com/icon?family=Material+Icons'
 ];
@@ -36,8 +38,13 @@ this.addEventListener('fetch', function(event) {
 self.addEventListener('notificationclick', e =>{
   console.log('Clicked on notification');
   e.notification.close()
+  self.clients.matchAll().then(all => all.forEach(client => {
+        client.postMessage("response from SW");
+    }));
 })
 
 self.addEventListener('notificationclose', function(e) {
   console.log('Closed notification:');
 });
+
+//New 
