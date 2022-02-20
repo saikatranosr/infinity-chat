@@ -79,10 +79,11 @@ function AppendMessage(){
     }
     messageElement.innerText = message;
     let msgArr = Array.from(message);
+    
     for (let i=0; i<msgArr.length && emoji; i++){
-      // console.log(message[i])
-      emoji = /\p{Extended_Pictographic}/u.test(msgArr[i]);
-      }
+      try emoji = /\p{Extended_Pictographic}/u.test(msgArr[i]);
+      catch emoji = false;
+    }
     if(emoji){
       messageElement.style.fontSize = '2rem';
       messageContainer.style.background = 'var(--bg)';
@@ -111,10 +112,11 @@ function AppendMessage(){
     showMsgInfo(messageContainer)
     })
     console.log(msgId)
-    messageContainer.addEventListener('contextmenu',()=> {
+    messageContainer.addEventListener('contextmenu',(event)=> {
+      console.log("X:"+event.clientX, "Y"+event.clientY)
       if (menu.isActive('msg')) menu.hideWithId('msg');
- 
-      menu.show(messageContainer, 'msg', [{
+
+      menu.show(event, 'msg', [{
         icon: 'content_copy',
         text: "Copy",
         doThat: () => navigator.clipboard.writeText(messageElement.innerText)
@@ -240,17 +242,17 @@ function Menu(){
       elem.append(innerElem[i]);
     }
     document.body.append(elem);
-    if(container.clientWidth - (target.offsetLeft + target.clientWidth) < elem.clientWidth){
-      elem.style.left = (target.offsetLeft - elem.clientWidth) + 'px';
+    if(window.innerWidth - target.clientX < elem.clientWidth){
+      elem.style.left = (target.clientX - elem.clientWidth) + 'px';
     }
     else {
-      elem.style.left = (target.offsetLeft + target.clientWidth) + 'px';
+      elem.style.left = target.clientX + 'px';
     }
-    if(container.clientHeight - (target.offsetTop - container.scrollTop + target.clientHeight) < elem.clientHeight){
-      elem.style.top = (target.offsetTop - container.scrollTop - elem.clientHeight) + 'px';
+    if(window.innerHeight - target.clientY < elem.clientHeight){
+      elem.style.top = (target.clientY - elem.clientHeight) + 'px';
     }
     else {
-      elem.style.top = (target.offsetTop - container.scrollTop) + 'px';
+      elem.style.top = target.clientY + 'px';
     }
     
   }

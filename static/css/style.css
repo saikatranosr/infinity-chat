@@ -1,3 +1,4 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Roboto+Condensed:wght@300&display=swap');
 * {
   margin: 0;
   padding: 0;
@@ -77,6 +78,7 @@ nav{
 .titleContainer{
   display: flex;
   align-items: center;
+  
 }
 .logo {
   height: 40px;
@@ -270,11 +272,11 @@ nav{
   justify-content: center;
 }
 .over{
-  font-family: Arial,Sans-Serif;
+  font-family: 'Bree Serif', serif;
   position: absolute;
   top: 0;
   left: 0;
-  background: var(--semi-tp);
+  background: #00000078;
   height: 100vh;
   height: calc(var(--vh, 1vh) * 100);
   width: 100vw;
@@ -293,18 +295,21 @@ nav{
   justify-content: center;
   flex-direction: column;
   background: var(--light-gray);
-  box-shadow: var(--gray) 0 0 10px 3px;
-}
-#loadingScreen{
-  background: transparent;
-  transition: .5s;
+  border-radius: 0.5rem;
+  /*box-shadow: var(--gray) 0 0 10px 3px;*/
 }
 .over img{
   height: 100px;
   width: 100px;
   filter: var(--hue);
 }
-
+.promptContainer.row{
+  flex-direction: row;
+  font-size: 1.2rem;
+}
+.promptContainer.row > *{
+  margin: 0 5px;
+}
 .content{
   display: flex;
   flex-direction: column;
@@ -339,6 +344,14 @@ nav{
 .new{
   background: var(--theme-color);
   color: white;
+}
+
+.spinner {
+  height: 30px;
+  width: 30px;
+  border-radius: 2rem;
+  border: 5px dotted var(--theme-color);
+  animation: spin 1s ease-in-out infinite;
 }
 
 @media only screen and (max-width: 500px){
@@ -382,7 +395,7 @@ nav{
   background: var(--light-gray);
   color: var(--color);
   font-family: Arial, Sans-Serif;
-  border-radius: 1px;
+  border-radius: 5px;
   box-shadow: var(--gray) 1px 1px 5px;
   animation: height-grow .5s ease-in;
   overflow: hidden;
@@ -435,5 +448,14 @@ nav{
     /*opacity: 1;*/
     /*max-width: 1000px;*/
     max-height: 1000px;
+  }
+}
+
+@keyframes spin {
+  0%{
+    transform: rotate(0deg);
+  }
+  100%{
+    transform: rotate(360deg);
   }
 }

@@ -4,7 +4,10 @@ menu = new Menu()
 theme = new Theme()
 
 // Hiding Menu on click on anywhere
-container.addEventListener('click', ()=> menu.hideWithId('msg'))
+container.addEventListener('click', ()=> {
+  menu.hideWithId('msg')
+  menu.hideWithId('more-menu')
+})
 appendMessage.message("", "❤️", 'left', 'none', 'none');
 // Getting settings
 _settings = JSON.parse(localStorage.getItem('settings'));
@@ -25,13 +28,6 @@ window.addEventListener('resize', ()=>{
   let vh = window.innerHeight * 0.01;
   document.documentElement.style.setProperty('--vh', `${vh}px`);
 });
-
-// Disable Right Click
-// container.oncontextmenu = function(event) {
-//     event.preventDefault();
-//     event.stopPropagation();
-//     return false;
-// };
 
 // If an user clicks on the goToEnd button
 goToEndBtn.addEventListener('click', ()=> {
@@ -96,23 +92,24 @@ color_arr.push(
 )
 }
 //Listening click event on more menunand showing the menu
-moreMenu.addEventListener('click', () => {
+moreMenu.addEventListener('click', (event) => {
   if (menu.isActive('more-menu')) menu.hideWithId('more-menu');
   else {
-    menu.show(moreMenu, 'more-menu', [{
+    menu.show(event, 'more-menu', [{
       icon: 'refresh',
       text: "Reload",
       doThat: () => document.location.reload(true)
     },{
       icon: 'brightness_4',
       text: 'Theme',
-      doThat: ()=>{
-        menu.show(moreMenu,'more-menu' , [{
+      doThat: (event)=>{
+        menu.show(event,'more-menu' , [{
           icon: (settings.theme == 'light') ? "done" : 'check_box_outline_blank',
           text: "Light",
           doThat: ()=>{
             theme.theme('light');
             settings.theme = 'light';
+            saveSettings()
           }
         },
         {
@@ -145,8 +142,8 @@ moreMenu.addEventListener('click', () => {
     {
       icon: 'palette',
       text: 'Color',
-      doThat: ()=>{
-        menu.show(moreMenu, 'more-menu', color_arr)
+      doThat: (event)=>{
+        menu.show(event, 'more-menu', color_arr)
       }
   }])
 }
@@ -173,15 +170,12 @@ p2 = new Promise((resolve, reject) => {
         name = name.substr(0, 9).trim();
       }
       myPrompt.style.display = 'none';
-      messageInput.focus();
       resolve(1);
     });
   });
 });
  
-p2.then((e)=>{
-  connectIO(name);
-})
+p2.then((e) => connectIO(name))
 
 // Service Workers
 if ('serviceWorker' in navigator) {
@@ -194,12 +188,11 @@ if ('serviceWorker' in navigator) {
       console.warn("Service worker registration failed", e)
     })
   })
+  navigator.serviceWorker.addEventListener('message', function(event) {
+    console.log("Got reply from service worker: " + event.data);
+    window.focus()
+  });
 }
 else{
   console.warn("serviceWorker is not supported on your browser :)")
 }
-
-navigator.serviceWorker.addEventListener('message', function(event) {
-  console.log("Got reply from service worker: " + event.data);
-  window.focus()
-});

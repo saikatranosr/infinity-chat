@@ -6,6 +6,7 @@ loadingScreen.style.display = 'flex';
 // Welcome a user when welcome him/her and takes the users object and shand
 socket.on('welcome', e => {
   loadingScreen.style.display = 'none';
+    messageInput.focus();
     users = e.obj;
     delete users[e.myId]
     myId = e.myId;

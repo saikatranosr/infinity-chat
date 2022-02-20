@@ -5,7 +5,7 @@ head
   title Infinity Chat - The Real Chatroom by Saikat
   link(href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet')
   link(rel='stylesheet' href='/css/style.css')
-  link(rel='manifest' href='/js/my.webmanifest')
+  link(rel='manifest' href='/mainfest.json')
   
 .main.noselect
   nav
@@ -25,8 +25,9 @@ head
   span.material-icons#goToEndBtn arrow_downward
   span#msgCount 
 #loadingScreen.over.noselect
-  img(src='/media/logo.svg' alt='')
-  p Loading...
+  .promptContainer.row
+    div.spinner
+    p Joining...
   
 #myPrompt.over.noselect
   .promptContainer

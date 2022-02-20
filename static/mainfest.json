@@ -1,0 +1,30 @@
+{
+  "name": "Infinity Chat - Chat with Fun",
+  "short_name": "Infinity Chat",
+  "description": "Infinity Chat, an web based Chat application made with socket.io and node.js - made with love by Saikat",
+  "theme_color": "black",
+  "background_color": "black",
+  "icons": [
+    {
+      "src": "/media/logo.png",
+      "sizes": "512×512",
+      "type": "image/png"
+    },
+    // ...
+    {
+      "src": "/media/logo.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    }
+  ],
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "user_preferences": [{
+		"context": "(prefers-color-scheme: dark)",
+		"redefine": {
+			"theme_color": "darkred",
+			"background_color": "black"
+		}
+	}]
+}
