@@ -13,6 +13,10 @@ var urlsToCache = [
 ];
 this.addEventListener('install', function(event) {
   event.waitUntil(
+    caches.keys().then(function(names) {
+    for (let name of names)
+        caches.delete(name);
+    });
     caches.open(CACHE_NAME)
       .then(function(cache) {
         console.log('Opened cache');
@@ -35,16 +39,18 @@ this.addEventListener('fetch', function(event) {
   );
 });
 
-self.addEventListener('notificationclick', e =>{
+self.addEventListener('notificationclick', event =>{
   console.log('Clicked on notification');
-  e.notification.close()
-  self.clients.matchAll().then(all => all.forEach(client => {
-        client.postMessage("response from SW");
+  event.notification.close()
+  if (event.action == 'mark-as-read') {
+    self.clients.matchAll().then(all => all.forEach(client => {
+      client.postMessage("mark-as-read");
     }));
+  }
 })
 
 self.addEventListener('notificationclose', function(e) {
+  // Send notification data
   console.log('Closed notification:');
 });
-
-//New 
+//New new

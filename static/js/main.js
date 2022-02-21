@@ -53,7 +53,7 @@ messageInput.addEventListener('input', ()=>{
 });
 
 // Send the message if someone clicks ENTER
-messageInput.addEventListener("keypress", ()=>{
+messageInput.addEventListener("keypress", (event)=>{
     if(event.which === 13 && !event.shiftKey){
         event.target.form.dispatchEvent(new Event("submit", {cancelable: true}));
         event.preventDefault(); // Prevents the addition of a new line in the text field (not needed in a lot of cases)
@@ -181,6 +181,7 @@ p2.then((e) => connectIO(name))
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', ()=>{
     navigator.serviceWorker.register('/sw.js').then((e)=>{
+      // Recieve notification data and do some task
       console.log("serviceWorker registration successful", e)
       sw = e;
     })
@@ -189,8 +190,10 @@ if ('serviceWorker' in navigator) {
     })
   })
   navigator.serviceWorker.addEventListener('message', function(event) {
-    console.log("Got reply from service worker: " + event.data);
-    window.focus()
+    console.log(event.data)
+    if (event.data == 'mark-as-read'){
+      tempMsg = 0;
+    }
   });
 }
 else{

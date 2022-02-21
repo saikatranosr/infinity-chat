@@ -131,6 +131,9 @@ nav{
   transition: 1s;
   overflow: hidden;
 }
+.message{
+  transition: 1s;
+}
 .left {
   justify-content: flex-start
 }
@@ -144,6 +147,14 @@ nav{
 .left .message-container{
   background: var(--light-gray);
   color: var(--color);
+}
+.deleted{
+  background: var(--light-gray) !important;
+}
+.deleted .message{
+  font-size: 0.8rem !important;
+  color: var(--theme-dark) !important;
+  animation: none !important;
 }
 .sender-name{
   color: var(--theme-color);

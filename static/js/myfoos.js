@@ -34,7 +34,7 @@ function scrolled(e) {
   }
 }
 function scrolled_up(e) {
-  if (e.offsetHeight + e.scrollTop >= e.scrollHeight-500) {
+  if (e.offsetHeight + e.scrollTop >= e.scrollHeight-100) {
     return true;
   }
 }
@@ -62,27 +62,22 @@ function AppendMessage(){
     timeElement.classList.add('time-stamp');
     readElement.classList.add('message-read');
     readElement.classList.add('material-icons');
-    
     infoElement.append(timeElement);
     infoElement.append(readElement);
     const nodes = document.querySelectorAll('.sender-name')
     if(document.querySelector('.sender-name') != null){
       // console.log(nodes[nodes.length -1])
-      if (nodes[nodes.length -1].id != senderElement.id){
+      if (nodes[nodes.length -1].id != senderElement.id)
         senderElement.innerText = sender;
-      } else {
-        senderElement.innerText = '';
-        
-      }
-    } else {
-      senderElement.innerText = sender;
+      else senderElement.innerText = '';
     }
+    else senderElement.innerText = sender;
+    
     messageElement.innerText = message;
     let msgArr = Array.from(message);
     
     for (let i=0; i<msgArr.length && emoji; i++){
-      try emoji = /\p{Extended_Pictographic}/u.test(msgArr[i]);
-      catch emoji = false;
+      emoji = isEmoji(msgArr[i]);
     }
     if(emoji){
       messageElement.style.fontSize = '2rem';
@@ -111,26 +106,31 @@ function AppendMessage(){
     messageContainer.addEventListener('mouseup', () => {
     showMsgInfo(messageContainer)
     })
-    console.log(msgId)
-    messageContainer.addEventListener('contextmenu',(event)=> {
-      console.log("X:"+event.clientX, "Y"+event.clientY)
+    
+    messageContainer.addEventListener('contextmenu', (event)=> {
       if (menu.isActive('msg')) menu.hideWithId('msg');
-
       menu.show(event, 'msg', [{
         icon: 'content_copy',
         text: "Copy",
         doThat: () => navigator.clipboard.writeText(messageElement.innerText)
       },{
         icon: 'delete',
-        text: "Delete",
+        text: "Delete for me",
         doThat: () => this.deleteForMe(messageFullContainer)
+      },{
+        icon: 'delete_forever',
+        text: "Delete for everyone",
+        doThat: () => {
+          this.deleteForEveryone(msgId);
+          window.dispatchEvent(new CustomEvent('delete-for-everyone',  {detail: msgId}))
+        }
       }])
     })
     showMsgInfo(messageContainer);
     // Scrolling properities
     if(position =='left' || position =='center'){
         // audio.play();
-        if (scroled_val){
+        if (scroled_val && document.visibilityState == 'visible'){
          	// container.scrollTop = container.scrollHeight;
          	container.scrollTo({top: container.scrollHeight, behaviour: 'smooth'})
          	// scrollToSmoothly(container, container.scrollHeight, 1000)
@@ -153,8 +153,22 @@ function AppendMessage(){
   }
   
   // Delete message
-  this.deleteForMe = (el) => {
-    el.remove()
+  this.deleteForMe = el => el.remove()
+  
+  this.deleteForEveryone = id => {
+    console.log("ID is "+id)
+    const message = document.querySelector(`#${id} .message`);
+    const full = document.querySelector(`#${id} .message-container`);
+    message.innerHTML = "<i>This message was deleted</i>";
+    full.classList.add('deleted')
+    full.addEventListener('contextmenu', (event)=> {
+      if (menu.isActive('msg')) menu.hideWithId('msg');
+      menu.show(event, 'msg', [{
+        icon: 'delete',
+        text: "Delete for me",
+        doThat: () => this.deleteForMe(document.querySelector(`#${id}`))
+      }])
+    })
   }
   
 }
@@ -164,6 +178,8 @@ function AppendUser(){
   let allUser = document.querySelectorAll('.user')
   // To append a single user
   this.appendFoo = (data) =>{
+    const localTime = data.info - (new Date().getTimezoneOffset())
+    const lastOnline = Math.floor(localTime / 60) + ":" + (((localTime % 60) < 10) ? "0" : "") + (localTime % 60)
     let userElement = document.createElement('div');
     let nameElement = document.createElement('div');
     let statusElement = document.createElement('div');
@@ -171,13 +187,13 @@ function AppendUser(){
     userElement.id = `user-${data.idKey}`;
     nameElement.classList.add('userName');
     statusElement.classList.add('info');
-    statusElement.classList.add(data.info[0]);
+    statusElement.classList.add(data.info);
     userElement.append(nameElement);
     userElement.append(statusElement);
     nameElement.innerText = data.name;
-    statusElement.innerText = (data.info[0] == 'online') ? "online" : data.info[1]
+    statusElement.innerText = (data.info == 'online') ? "online" : lastOnline;
     
-    switch (data.info[0]) {
+    switch (data.info) {
         case 'online':
             statusElement.innerText = "online";
             break;
@@ -216,9 +232,11 @@ function AppendUser(){
      let elem = document.querySelector(`#user-${e} .info`);
      elem.innerText = "online";
   }
-  this.offline = (e) => {
-     let elem = document.querySelector(`#user-${e.id} .info`);
-     elem.innerText = e.time;
+  this.offline = (data) => {
+    const localTime = data.info - (new Date().getTimezoneOffset())
+    const lastOnline = Math.floor(localTime / 60) + ":" + (((localTime % 60) < 10) ? "0" : "") + (localTime % 60)
+     let elem = document.querySelector(`#user-${data.id} .info`);
+     elem.innerText = lastOnline;
   }
 } // End of Function
 
@@ -236,7 +254,7 @@ function Menu(){
       _tmp_icon.innerText = data[i].icon;
       _tmp_text = document.createElement('span');
       _tmp_text.innerText = data[i].text;
-      innerElem[i].onclick = () =>{ data[i].doThat(); menu.hide(elem) }
+      innerElem[i].onclick = (event) =>{ data[i].doThat(event); menu.hide(elem) }
       innerElem[i].append(_tmp_icon);
       innerElem[i].append(_tmp_text);
       elem.append(innerElem[i]);
@@ -368,20 +386,23 @@ function notification(title, body){
   }
   if (notiSwhown){
     sw.getNotifications({tag: 'chatroom'}).then(n =>{
-      if (n.length != 0){
-        console.log('*****'+ n[0].body + '\n')
-        tempNoti = n[0].body + '\n';
-      }
-    else{ tempNoti = "";}
-    console.log("Temp: "+tempNoti)
-    let newBody = tempNoti + title + ": " + body;
-    console.log("Full: "+newBody);
+      if (n.length != 0) tempNoti = n[0].body + '\n';
+    else tempNoti = "";
+    let _c = (title == "") ? "" : ": "
+    let newBody = (tempNoti + toUnicodeVariant(title, 'bold') + toUnicodeVariant(_c, 'bold') + body.replace('\n', " "))
     sw.showNotification("New Message", {
       body: newBody,
       icon: '/media/logo.png',
       badge: '/media/logo-w.png',
       renotify: true,
-      tag: 'chatroom'
+      tag: 'chatroom',
+      actions: [{
+        action: "mark-as-read",
+        title: "Mark as read"
+      },{
+        action: "close",
+        title: "Close"
+      }]
     })
     })
   }

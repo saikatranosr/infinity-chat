@@ -43,13 +43,13 @@ socket.on('sent', (msgId)=>{
 socket.on('user-joined', e =>{
     appendMessage.message('', `${e.name} joined the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("Infinity Chat", `${e.name} joined the chat`)
+    notification("", `${e.name} joined the chat`)
   }
     users[e.id] = {}
     users[e.id].name = e.name;
-    users[e.id].info = ['online'];
+    users[e.id].info = 'online';
     console.log(users);
-    appendUser.appendFoo({idKey: e.id, name: e.name, info: ['online']})
+    appendUser.appendFoo({idKey: e.id, name: e.name, info: 'online'})
 })
 
 // If server sends a message, receive it
@@ -64,7 +64,7 @@ socket.on('receive', data =>{
 socket.on('left', id =>{
     appendMessage.message('', `${users[id].name} left the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("Infinity Chat", `${users[id].name} left the chat`)
+    notification("", `${users[id].name} left the chat`)
   }
     delete users[id];
     appendUser.removeUser(id)
@@ -74,10 +74,6 @@ socket.on('left', id =>{
 socket.on('disconnect', function(){
     socket.emit('new-user-joined', name);
     appendUser.renderAll()
-});
-
-socket.on('alert', e => {
-    alert(e);
 });
 
 messageInput.addEventListener('input', ()=> {
@@ -90,17 +86,18 @@ socket.on('user-typing', e => {
 
 socket.on('user-online', e =>{
   appendUser.online(e);
-  users[e].info = ['online'];
+  users[e].info = 'online';
 });
 
-socket.on('user-offline', e =>{
-  appendUser.offline(e);
-  users[e.id].info = ['offline', e.time];
+socket.on('user-offline', data =>{
+  appendUser.offline(data);
+  users[data.id].info = data.info;
 });
 
 document.addEventListener("visibilitychange", function() {
   if (document.visibilityState == 'visible') {
     socket.emit('online');
+    // remove all notifications on app open
     sw.getNotifications().then(e =>{
     for (let i = 0; i < e.length; i++) {
         e[i].close()
@@ -110,4 +107,14 @@ document.addEventListener("visibilitychange", function() {
     socket.emit('offline');
   }
 });
+
+socket.on('user-delete', id => {
+  console.log("ID from connection: "+id)
+  appendMessage.deleteForEveryone(id);
+})
+
+window.addEventListener('delete-for-everyone', event => {
+  console.log("Event: "+event.detail)
+  socket.emit('delete', event.detail)
+})
 }

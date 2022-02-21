@@ -53,7 +53,7 @@ io.on('connection', socket =>{
     socket.on('online', () =>{
         socket.broadcast.emit('user-online', socket.id);
         try{
-          users[socket.id].info = ['online'];
+          users[socket.id].info = 'online';
         }
         catch{
           console.log('err');
@@ -62,16 +62,17 @@ io.on('connection', socket =>{
     
     socket.on('offline', () =>{
       let myDate = new Date();
-      lastOnline = `${(myDate.getHours()<10?'0':'')+(myDate.getHours())}:${(myDate.getMinutes()<10?'0':'')+(myDate.getMinutes())}`
-      socket.broadcast.emit('user-offline', {id: socket.id, time: lastOnline});
+      lastOnline = myDate.getUTCHours()*60 + myDate.getUTCMinutes();
+      socket.broadcast.emit('user-offline', {id: socket.id, info: lastOnline});
       try{
-        users[socket.id].info = ['offline', lastOnline];
+        users[socket.id].info = lastOnline;
       }
       catch{
         console.log('err');
       }
     });
         
+    socket.on('delete', id => socket.broadcast.emit('user-delete', id));
     
 });
 
