@@ -1,4 +1,4 @@
-var CACHE_NAME = 'my-site-cache-v1';
+var CACHE_NAME = 'my-site-cache-v9';
 var urlsToCache = [
   '/',
   '/css/style.css',
@@ -12,11 +12,11 @@ var urlsToCache = [
   'https://fonts.googleapis.com/icon?family=Material+Icons'
 ];
 this.addEventListener('install', function(event) {
-  event.waitUntil(
-    caches.keys().then(function(names) {
+  caches.keys().then(function(names) {
     for (let name of names)
-        caches.delete(name);
-    });
+      caches.delete(name);
+  });
+  event.waitUntil(
     caches.open(CACHE_NAME)
       .then(function(cache) {
         console.log('Opened cache');
