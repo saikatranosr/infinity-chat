@@ -108,6 +108,8 @@ function AppendMessage(){
     })
     
     messageContainer.addEventListener('contextmenu', (event)=> {
+      event.preventDefault()
+      event.stopPropagation()
       if (menu.isActive('msg')) menu.hideWithId('msg');
       menu.show(event, 'msg', [{
         icon: 'content_copy',
