@@ -1,6 +1,5 @@
 function connectIO(name){
-const socket = io('http://localhost:8000');
-
+const socket = io("ws://localhost:8000");
 socket.emit('new-user-joined', name);
 loadingScreen.style.display = 'flex';
 // Welcome a user when welcome him/her and takes the users object and shand

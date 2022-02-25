@@ -1,4 +1,22 @@
-const io = require('socket.io')(8000)
+const express = require("express");
+const socket = require("socket.io");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors());
+
+const server = app.listen(8000, () =>
+  console.log("Port 8080")
+);
+
+// socket setup
+const io = socket(server, {
+  cors: {
+    origin: "http://localhost:3000",
+    methods: ["GET", "POST"],
+  }
+});
 
 // MY VARIABLES
 let users = {};

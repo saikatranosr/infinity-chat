@@ -2,7 +2,7 @@ appendUser = new AppendUser();
 appendMessage = new AppendMessage()
 menu = new Menu()
 theme = new Theme()
-
+ console.log("Hello")
 // Hiding Menu on click on anywhere
 container.addEventListener('click', ()=> {
   menu.hideWithId('msg')
@@ -170,7 +170,6 @@ p2 = new Promise((resolve, reject) => {
       }
       myPrompt.style.display = 'none';
       event.preventDefault()
-      event.stopPropagation()
       resolve(1);
     });
   });
