@@ -4,7 +4,8 @@
   "description": "A real time Chat App (Chatroom) made by NodeJs (Express + socketIO)",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon -e js,pug,css,json index.js"
   },
   "author": "Saikat Rano",
   "license": "ISC",
