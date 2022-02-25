@@ -1,5 +1,5 @@
 function connectIO(name){
-const socket = io();
+const socket = io('http://localhost:8000');
 
 socket.emit('new-user-joined', name);
 loadingScreen.style.display = 'flex';
