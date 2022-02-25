@@ -103,8 +103,11 @@ function AppendMessage(){
     container.append(messageFullContainer);
     messageContainer.style.opacity = '1';
     
-    messageContainer.addEventListener('mouseup', () => {
+    messageContainer.addEventListener('mouseup', event => {
     showMsgInfo(messageContainer)
+    event.preventDefault()
+    event.stopPropagation()
+    return false;
     })
     
     messageContainer.addEventListener('contextmenu', (event)=> {

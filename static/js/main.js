@@ -162,7 +162,6 @@ p = new Promise((resolve, reject) => {
 p2 = new Promise((resolve, reject) => {
   p.then((e)=>{
     nameForm.addEventListener('submit', (e) => {
-      e.preventDefault();
       name = nameInp.value.trim();
       if (name.length == 0){
         name = "Kitty";
@@ -170,6 +169,8 @@ p2 = new Promise((resolve, reject) => {
         name = name.substr(0, 9).trim();
       }
       myPrompt.style.display = 'none';
+      event.preventDefault()
+      event.stopPropagation()
       resolve(1);
     });
   });

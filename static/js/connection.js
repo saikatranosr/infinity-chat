@@ -15,8 +15,7 @@ socket.on('welcome', e => {
     appendUser.renderAll()
 });
 
-form.addEventListener('submit', (e) => {
-    e.preventDefault();
+form.addEventListener('submit', event => {
     const message = messageInput.value.trim();
     if (message.length !== 0){
       let msgId = `msg-${myId}-${Date.now()}`;
@@ -34,6 +33,8 @@ form.addEventListener('submit', (e) => {
       mainContainer.style.gridTemplateRows = `40px 1fr 50px`;
     }
 	  messageInput.focus();
+    event.preventDefault()
+    event.stopPropagation()
 });
 socket.on('sent', (msgId)=>{
   appendMessage.info(msgId, 'done'); //done == tick_mark
