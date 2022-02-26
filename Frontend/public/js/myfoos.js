@@ -372,43 +372,43 @@ function showMsgInfo(e){
 }
 
 // Notification stuffs
-function notification(title, body){
-  let tempNoti;
-  let notiSwhown = false;
-  if ('serviceWorker' in navigator) {
-    if (Notification.permission=='default'){
-      Notification.requestPermission(state=>{
-        if (state=='granted'){
-          notiSwhown = true;
-        }
-      });
-    }
-    else if (Notification.permission == 'granted'){
-      notiSwhown = true;
-    }
-  } else {
-    console.warn("serviceWorker is not supported on your browser :)")
-  }
-  if (notiSwhown){
-    sw.getNotifications({tag: 'chatroom'}).then(n =>{
-      if (n.length != 0) tempNoti = n[0].body + '\n';
-    else tempNoti = "";
-    let _c = (title == "") ? "" : ": "
-    let newBody = (tempNoti + toUnicodeVariant(title, 'bold') + toUnicodeVariant(_c, 'bold') + body.replace('\n', " "))
-    sw.showNotification("New Message", {
-      body: newBody,
-      icon: '/media/logo.png',
-      badge: '/media/logo-w.png',
-      renotify: true,
-      tag: 'chatroom',
-      actions: [{
-        action: "mark-as-read",
-        title: "Mark as read"
-      },{
-        action: "close",
-        title: "Close"
-      }]
-    })
-    })
-  }
-}
+// function notification(title, body){
+//   let tempNoti;
+//   let notiSwhown = false;
+//   if ('serviceWorker' in navigator) {
+//     if (Notification.permission=='default'){
+//       Notification.requestPermission(state=>{
+//         if (state=='granted'){
+//           notiSwhown = true;
+//         }
+//       });
+//     }
+//     else if (Notification.permission == 'granted'){
+//       notiSwhown = true;
+//     }
+//   } else {
+//     console.warn("serviceWorker is not supported on your browser :)")
+//   }
+//   if (notiSwhown){
+//     sw.getNotifications({tag: 'chatroom'}).then(n =>{
+//       if (n.length != 0) tempNoti = n[0].body + '\n';
+//     else tempNoti = "";
+//     let _c = (title == "") ? "" : ": "
+//     let newBody = (tempNoti + toUnicodeVariant(title, 'bold') + toUnicodeVariant(_c, 'bold') + body.replace('\n', " "))
+//     sw.showNotification("New Message", {
+//       body: newBody,
+//       icon: '/media/logo.png',
+//       badge: '/media/logo-w.png',
+//       renotify: true,
+//       tag: 'chatroom',
+//       actions: [{
+//         action: "mark-as-read",
+//         title: "Mark as read"
+//       },{
+//         action: "close",
+//         title: "Close"
+//       }]
+//     })
+//     })
+//   }
+// }

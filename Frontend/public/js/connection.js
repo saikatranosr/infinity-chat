@@ -43,7 +43,7 @@ socket.on('sent', (msgId)=>{
 socket.on('user-joined', e =>{
     appendMessage.message('', `${e.name} joined the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("", `${e.name} joined the chat`)
+    // notification("", `${e.name} joined the chat`)
   }
     users[e.id] = {}
     users[e.id].name = e.name;
@@ -56,7 +56,7 @@ socket.on('user-joined', e =>{
 socket.on('receive', data =>{
   appendMessage.message(data.name, data.message, 'left', data.id, data.sender)
   if(document.visibilityState == 'hidden'){
-    notification(data.name, data.message)
+    // notification(data.name, data.message)
   }
 })
 
@@ -64,7 +64,7 @@ socket.on('receive', data =>{
 socket.on('left', id =>{
     appendMessage.message('', `${users[id].name} left the chat`, 'center', '');
     if(document.visibilityState == 'hidden'){
-    notification("", `${users[id].name} left the chat`)
+    // notification("", `${users[id].name} left the chat`)
   }
     delete users[id];
     appendUser.removeUser(id)
@@ -98,10 +98,10 @@ document.addEventListener("visibilitychange", function() {
   if (document.visibilityState == 'visible') {
     socket.emit('online');
     // remove all notifications on app open
-    sw.getNotifications().then(e =>{
-    for (let i = 0; i < e.length; i++) {
-        e[i].close()
-    }})
+    // sw.getNotifications().then(e =>{
+    // for (let i = 0; i < e.length; i++) {
+    //     e[i].close()
+    // }})
   }
   else {
     socket.emit('offline');

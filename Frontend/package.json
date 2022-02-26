@@ -1,28 +1,20 @@
 {
-  "name": "infinity-chat",
-  "version": "1.0.0",
-  "description": "A real time Chat App (Chatroom) made by NodeJs (Express + socketIO)",
-  "main": "index.js",
+  "name": "infinity-chat-next",
+  "version": "0.1.0",
+  "private": true,
   "scripts": {
-    "start": "node index.js",
-    "dev": "nodemon -e js,pug,css,json index.js"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start",
+    "lint": "next lint"
   },
-  "author": "Saikat Rano",
-  "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
-    "firebase": "^9.6.6",
-    "pug": "^3.0.2",
-    "push.js": "^1.0.12",
-    "socket.io": "^4.4.1",
-    "web-push": "^3.4.5"
+    "next": "12.1.0",
+    "react": "17.0.2",
+    "react-dom": "17.0.2"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/saikatranosr/infinity-chat.git"
-  },
-  "bugs": {
-    "url": "https://github.com/saikatranosr/infinity-chat/issues"
-  },
-  "homepage": "https://github.com/saikatranosr/infinity-chat#readme"
+  "devDependencies": {
+    "eslint": "8.10.0",
+    "eslint-config-next": "12.1.0"
+  }
 }

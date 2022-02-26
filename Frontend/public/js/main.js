@@ -178,24 +178,24 @@ p2 = new Promise((resolve, reject) => {
 p2.then((e) => connectIO(name))
 
 // Service Workers
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', ()=>{
-    navigator.serviceWorker.register('/sw.js').then((e)=>{
-      // Recieve notification data and do some task
-      console.log("serviceWorker registration successful", e)
-      sw = e;
-    })
-    .catch(e=>{
-      console.warn("Service worker registration failed", e)
-    })
-  })
-  navigator.serviceWorker.addEventListener('message', function(event) {
-    console.log(event.data)
-    if (event.data == 'mark-as-read'){
-      tempMsg = 0;
-    }
-  });
-}
-else{
-  console.warn("serviceWorker is not supported on your browser :)")
-}
+// if ('serviceWorker' in navigator) {
+//   window.addEventListener('load', ()=>{
+//     navigator.serviceWorker.register('/sw.js').then((e)=>{
+//       // Recieve notification data and do some task
+//       console.log("serviceWorker registration successful", e)
+//       sw = e;
+//     })
+//     .catch(e=>{
+//       console.warn("Service worker registration failed", e)
+//     })
+//   })
+//   navigator.serviceWorker.addEventListener('message', function(event) {
+//     console.log(event.data)
+//     if (event.data == 'mark-as-read'){
+//       tempMsg = 0;
+//     }
+//   });
+// }
+// else{
+//   console.warn("serviceWorker is not supported on your browser :)")
+// }
