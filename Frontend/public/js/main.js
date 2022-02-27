@@ -159,23 +159,23 @@ p = new Promise((resolve, reject) => {
 })
 
 // Get name from the user
-p2 = new Promise((resolve, reject) => {
-  p.then((e)=>{
-    nameForm.addEventListener('submit', (e) => {
-      name = nameInp.value.trim();
-      if (name.length == 0){
-        name = "Kitty";
-        } else if (name.length > 10){
-        name = name.substr(0, 9).trim();
-      }
-      myPrompt.style.display = 'none';
-      event.preventDefault()
-      resolve(1);
-    });
-  });
-});
+// p2 = new Promise((resolve, reject) => {
+//   p.then((e)=>{
+//     nameForm.addEventListener('submit', (e) => {
+//       name = nameInp.value.trim();
+//       if (name.length == 0){
+//         name = "Kitty";
+//         } else if (name.length > 10){
+//         name = name.substr(0, 9).trim();
+//       }
+//       myPrompt.style.display = 'none';
+//       event.preventDefault()
+//       resolve(1);
+//     });
+//   });
+// });
  
-p2.then((e) => connectIO(name))
+// p2.then((e) => connectIO(name))
 
 // Service Workers
 // if ('serviceWorker' in navigator) {
