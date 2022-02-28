@@ -4,7 +4,6 @@ import styles from '../styles/Home.module.css'
 import Script from 'next/script'
 import { useEffect } from 'react'
 import io from 'socket.io-client'
-import Connection from '../components/scripts/Connection.js'
 import Navbar from '../components/pages/Navbar.js'
 import Prompt from '../components/pages/Prompt'
 import Loading from '../components/pages/Loading'
@@ -15,7 +14,6 @@ export default function Home() {
   useEffect(() => {
     fetch('/api/socketio').finally(() => {
       socket = io()
-      Connection(socket, "Saikat")
     })
   })
   return (
@@ -24,7 +22,7 @@ export default function Home() {
         <title>Infinity Chat - The Real Chatroom by Saikat</title>
         <link rel="icon" href="/favicon.ico" />
         <link href='https://fonts.googleapis.com/icon?family=Material+Icons' rel='stylesheet' />
-        <script src='/js/myfoos.js' defer />
+        {/* <script src='/js/myfoos.js' defer /> */}
       </Head>
       {/* <Script src="localhost:3000/socket.io/socket.io.js" /> */}
       {/* <Script src='/js/external_functions.js' strategy='lazyOnload' />
@@ -33,7 +31,11 @@ export default function Home() {
       <div className="main noselect">
       <Navbar/>
       <div className="users noselect" />
-      <div className="chats" />
+      <div className="chats">
+      {
+        
+      }
+      </div>
       <SendContainer/>
     </div>
     <div className="end noselect" id="goToEnd">
@@ -41,7 +43,7 @@ export default function Home() {
       <span id="msgCount" />
     </div>
     {/* <Loading/> */}
-    <Prompt />
+    <Prompt socketID={socket}/>
     </div>
   )
 }

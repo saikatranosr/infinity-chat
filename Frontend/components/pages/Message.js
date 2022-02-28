@@ -36,7 +36,7 @@ function Message({position, senderId, senderName, message, timeStamp, messageRec
   return (
     <div className={`message-full-container ${position}`}>
       <div className='message-container'>
-        <span className='sender-name' id=props.senderId>{senderName}</span>
+        <span className='sender-name' id={props.senderId}>{senderName}</span>
         <span className='message'>{message}</span>
         <div className='message-info'>
           <span className='time-stamp'>{timeStamp}</span>

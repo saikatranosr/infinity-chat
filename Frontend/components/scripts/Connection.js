@@ -1,4 +1,4 @@
-import React from 'react'
+import { useState } from "react";
 
 function Connection(socket, userName) {
     console.log("Connected to connection.js")
