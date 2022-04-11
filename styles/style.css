@@ -1,0 +1,178 @@
+@import url('https://fonts.googleapis.com/css2?family=Bree+Serif&family=Roboto+Condensed:wght@300&display=swap');
+* {
+  margin: 0;
+  padding: 0;
+}
+:root{
+  --theme-color: #3978c5;
+  --theme-dark: rgb(53,91,136);
+  --theme-light: #d7eaff;
+  --theme-gradiant: linear-gradient(-20deg, rgb(0,92,255) 12%, rgb(31,221,255) 100%);
+  --gray: lightgray;
+  --light-gray: rgb(240,240,240);
+  --semi-tp: rgba(255,255,255,0.637);
+  --bg: white;
+  --color: black;
+  --hue: hue-rotate(0deg);
+}
+html{
+  overflow: hidden;
+}
+body{
+   height: 100vh;  /* Fallback for browsers that do not support Custom Properties */
+  /* height: calc(var(--vh, 1vh) * 100); */
+  background: var(--bg);
+  transition: .5s;
+  overflow: hidden;
+}
+
+.btn{
+  padding: 10px;
+  border: none;
+  border-radius: 1rem;
+  color: white;
+  margin: 4px;
+  transition: 0.5s;
+  transition: .5s;
+  text-transform: uppercase;
+  font-weight: bold;
+}
+.btn-1{
+  background: var(--theme-color);
+}
+.btn-2{
+  background: var(--light-gray);
+}
+.btn-3{
+  color: var(--theme-color);
+  background: inherit;
+}
+.btn:hover{
+  box-shadow: var(--gray) 1px 1px 5px;
+}
+.btn-1:hover{
+  background: var(--theme-dark);
+}
+.btn-2:hover{
+  background: var(--gray);
+}
+.btn-3:hover {
+  background: var(--theme-light);
+}
+
+.inp{
+  height: 41px;
+  width: 200px;
+  border: none;
+  border: 1px solid var(--theme-color);
+  background: var(--bg);
+  color: var(--color);
+  border-radius: 0.5rem;
+  font-size: 1.1rem;
+  margin: 4px 0;
+  padding: 0 7px;
+}
+.inp:focus{
+  outline: 2px solid var(--theme-color);
+}
+
+.over{
+  font-family: 'Bree Serif', serif;
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  height: calc(var(--vh, 1vh) * 100);
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color);
+  transition: .5s;
+}
+.promptContainer {
+  width: 80vw;
+  max-width: 500px;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: var(--light-gray);
+  border-radius: 0.5rem;
+  box-shadow: var(--gray) 0 0 10px 3px;
+}
+.over img{
+  height: 100px;
+  width: 100px;
+  filter: var(--hue);
+}
+.promptContainer.row{
+  flex-direction: row;
+  font-size: 1.2rem;
+}
+.promptContainer.row > *{
+  margin: 0 5px;
+}
+.content{
+  display: flex;
+  flex-direction: column;
+}
+.content button{
+  align-self: flex-end;
+}
+
+.menu{
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: var(--light-gray);
+  color: var(--color);
+  font-family: Arial, Sans-Serif;
+  border-radius: 5px;
+  box-shadow: var(--gray) 1px 1px 5px;
+  animation: height-grow .5s ease-in;
+  overflow: hidden;
+}
+.menu > div{
+  display: flex;
+  align-items: center;
+  padding: 7px 10px;
+  transition: 0.5s;
+  transition: .5s;
+}
+.menu > div > span{
+  margin: 0 2px;
+}
+.menu > div:hover{
+  background: var(--gray);
+}
+.menu > div:active{
+  background: var(--theme-color);
+  color: white;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+     -khtml-user-select: none; /* Konqueror HTML */
+       -moz-user-select: none; /* Old versions of Firefox */
+        -ms-user-select: none; /* Internet Explorer/Edge */
+            user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
+
+@keyframes height-grow{
+  0%{
+    /*opacity: 0;*/
+    /*max-width: 0;*/
+    max-height: 0;
+    
+  }
+  100%{
+    /*opacity: 1;*/
+    /*max-width: 1000px;*/
+    max-height: 1000px;
+  }
+}

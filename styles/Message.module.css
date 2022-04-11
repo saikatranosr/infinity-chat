@@ -1,0 +1,133 @@
+.messageFullContainer{
+  display: flex;
+  margin: 5px 0;
+  transition: .5s;
+}
+
+.messageContainerWithInfo{
+    max-width: 80%;
+    position: relative;
+    z-index: 4;
+}
+
+.messageContainer {
+  padding-left: 10px;
+  padding-right: 10px;
+  font-family: Arial, sans-serif;
+  word-wrap: break-word;
+  border-radius: 1rem;
+  transition: 1s;
+  overflow: hidden;
+  box-shadow: var(--gray) 0 1px 2px;
+  z-index: 5;
+}
+.messageContainerWithInfo:before{
+    position: absolute;
+    height: 10px;
+    width: 19px;
+    box-shadow: var(--gray) 0 1px 2px;
+    z-index: -1;
+    /* border: 1px solid; */
+    /* transform: rotate(20deg); */
+}
+.left .messageContainerWithInfo:before {
+    content: "";
+    left: -5px;
+    background: white;
+    border-radius: 0 0 0 1rem;
+}
+.right .messageContainerWithInfo:before {
+    content: "";
+    right: -5px;
+    background: var(--theme-light);
+    border-radius: 0 0 1rem 0;
+    
+}
+
+.onlyMessageConainer{
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
+.message{
+  transition: 1s;
+  white-space: pre-line;
+}
+.left {
+  justify-content: flex-start;
+}
+.right {
+  justify-content: flex-end;
+}
+.right .messageContainer{
+  background: var(--theme-light);
+  /* border-radius: 1rem 0 1rem 1rem; */
+}
+.left .messageContainer{
+    /* border-radius: 0 1rem 1rem 1rem; */
+  /*background: var(--light-gray);*/
+  background: var(--bg);
+  color: var(--color);
+}
+.deleted{
+  background: var(--light-gray) !important;
+}
+.deleted .message{
+  font-size: 0.8rem !important;
+  color: var(--theme-dark) !important;
+  animation: none !important;
+}
+.senderContainer{
+    padding: 0;
+    margin: 0;
+    height: 0;
+    padding: 3px 0 7px 0;
+}
+.right .senderContainer, .center .senderContainer{
+    display: none;
+}
+.senderName{
+  color: var(--theme-color);
+  font-size: 0.8rem;
+}
+.center {
+  font-size: 0.7rem;
+  background: var(--light-gray);
+  color: var(--theme-color);
+  justify-content: center;
+}
+.messageInfo{
+  color: gray;
+  font-size: 0.7rem;
+  display: flex; 
+  /*align-items: center;*/
+  margin: 2px 5px;
+  transition: .5s;
+}
+
+.messageRead, .timeStamp{
+  margin: 0 1px;
+}
+.messageRead{
+  font-size: 1.2em;
+}
+.right .messageInfo{
+  justify-content: flex-end;
+}
+.left .messageInfo{
+  justify-content: flex-start;
+}
+.center .messageInfo{
+  display: none;
+}
+.left .messageRead{
+  display: none;
+}
+
+@keyframes heartbeat{
+  0%{
+    transform: scale(1);
+  }
+  100%{
+    transform: scale(0.9);
+  }
+}

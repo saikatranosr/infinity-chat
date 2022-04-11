@@ -1,0 +1,31 @@
+.users{
+  grid-row: 2 / span 2;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+  font-family: Arial, Sans-Serif;
+  /* border-right: 1px solid var(--gray); */
+  background: var(--bg);
+  color: var(--color);
+  transition: .5s;
+  box-shadow: var(--gray) 0 0 4px;
+  z-index: 2;
+}
+
+@media only screen and (max-width: 500px){
+    .users{
+        grid-column: 1;
+        grid-row: 2;
+        overflow-x: auto;
+        overflow-y: hidden;
+        flex-direction: row;
+        border: none;
+        /* border-bottom: 1px solid var(--gray); */
+        padding: 0 5px;
+    }
+  .user{
+    padding: 4px;
+    margin: 0 4px;
+    min-width: 50px;
+  }
+}

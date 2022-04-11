@@ -1,0 +1,17 @@
+.main {
+  height: calc(var(--vh, 1vh) * 100);
+  display: grid;
+  grid-template-rows: 40px 1fr 50px;
+  grid-template-columns: 1fr 1fr 1fr;
+  background: var(--bg);
+  transition: .5s;
+}
+
+@media only screen and (max-width: 500px){
+    .main{
+    grid-template-rows: 40px 50px 1fr 50px;
+    grid-template-columns: 1fr;
+  }
+}
+  
+  

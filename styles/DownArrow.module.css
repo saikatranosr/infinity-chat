@@ -1,0 +1,27 @@
+.goToEnd{
+  cursor: pointer;
+  position: absolute;
+  bottom: 100px;
+  right: 20px;
+  padding: 10px;
+  background: var(--semi-tp);
+  color: black;
+  box-shadow: gray 1px 1px 5px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 2rem;
+  transition: .5s;
+}
+.msgCount {
+  font-family: Arial, Sans-Serif;
+  position: relative;
+  font-weight: bold;
+  top: 0;
+  right: 0;
+  
+}
+.new{
+  background: var(--theme-color);
+  color: white;
+}

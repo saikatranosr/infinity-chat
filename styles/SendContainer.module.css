@@ -1,0 +1,60 @@
+.send {
+  grid-column: 2 / span 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: nowrap;
+  background: var(--bg);
+  transition: .5s;
+   /*border: 1px solid tomato; */
+}
+
+.messageInp {
+  font-family: Arial, Sans-Serif;
+  font-family: Arial, Sans-Serif;
+  outline: none;
+  border: none;
+  border-radius: 1.5rem;
+  background: var(--light-gray);
+  height: 25px;
+  padding: 0 12px;
+  font-size: 1.1rem;
+  width: calc(100% - 80px);
+  caret-color: var(--theme-color);
+  resize: none;
+  color: var(--color);
+  transition: .5s;
+}
+.messageInp:focus{
+    border: 2px solid var(--theme-light);
+    
+}
+
+.sendBtn {
+  display: flex;
+  border: none;
+  /*background: var(--theme-light);*/
+  background: inherit;
+  color: var(--theme-color);
+  margin-left: 5px;
+  width: 45px;
+  cursor: pointer;
+  border-radius: 2rem;
+  height: 45px;
+  transition: .2s;
+  align-items: center;
+  justify-content: center;
+  -webkit-tap-highlight-color: transparent;
+}
+.sendBtn:hover{
+    background: var(--theme-light);
+}
+.sendBtn:active{
+    /* transform: scale(2); */
+}
+@media only screen and (max-width: 500px){
+    .send{
+        grid-row: 4;
+        grid-column: 1;
+      }
+}

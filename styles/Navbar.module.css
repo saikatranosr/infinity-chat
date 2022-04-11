@@ -1,0 +1,39 @@
+.nav{
+  grid-column: 1 / span 3;
+  padding: 0 3vw;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid var(--gray);
+  background: var(--bg);
+  color: var(--color);
+  transition: .5s;
+}
+
+.titleContainer{
+  display: flex;
+  align-items: center;
+}
+
+.logo {
+  height: 40px;
+  margin: 0 5px;
+  filter: var(--hue);
+}
+
+.moreMenu{
+  border-radius: 2rem;
+  padding: 4px;
+  transition: .5s;
+}
+
+.moreMenu:active{
+  background: var(--light-gray);
+}
+
+@media only screen and (max-width: 500px){
+    .nav{
+        grid-row: 1;
+        grid-column: 1;
+      }
+}
