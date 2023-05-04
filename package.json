@@ -13,7 +13,7 @@
     "firebase": "^9.6.6",
     "pug": "^3.0.2",
     "push.js": "^1.0.12",
-    "socket.io": "^4.4.1",
+    "socket.io": "^4.6.0",
     "web-push": "^3.4.5"
   },
   "repository": {
