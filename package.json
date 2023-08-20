@@ -10,7 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.2",
-    "firebase": "^9.6.6",
+    "firebase": "^10.2.0",
     "pug": "^3.0.2",
     "push.js": "^1.0.12",
     "socket.io": "^4.4.1",
