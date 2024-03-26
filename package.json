@@ -9,7 +9,7 @@
   "author": "Saikat Rano",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.2",
+    "express": "^4.19.2",
     "firebase": "^9.6.6",
     "pug": "^3.0.2",
     "push.js": "^1.0.12",
